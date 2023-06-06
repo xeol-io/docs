@@ -1,0 +1,48 @@
+---
+title: 'EOL Scanning'
+description: 'Xeol helps you scan your Kubernetes clusters for your EOL software'
+---
+
+## Xeol CLI
+
+**Step 1.** Install Xeol CLI:
+
+```bash curl
+curl -sSfL https://raw.githubusercontent.com/noqcks/xeol/main/install.sh | sh -s -- -b /usr/local/bin
+xeol mongo:3.2
+```
+
+For more information, check out our GitHub [repo](https://github.com/xeol-io/xeol).
+
+
+## Xeol Dashboard
+
+<Info>
+  **Prerequisite** You should have helm installed.
+</Info>
+
+**Step 1.** Request Access to Xeol:
+
+You can request access by joining our Beta [waitlist](https://www.xeol.io/).
+
+
+**Step 2.** Get API key:
+
+Under the API tab, you will be able to generate an API Key.
+
+
+**Step 3.** Prepare the `xeol-agent` YAML file:
+
+```bash vim
+xeolAgent: 
+  xeol: 
+    apiKey: <api-key>
+```
+
+
+**Step 4.** Install `xeol-agent` onto your Kubernetes cluster:
+
+```bash helm
+helm repo add xeol https://charts.xeol.io 
+helm install xeol-agent -f values.yml xeol/xeol-agent
+```

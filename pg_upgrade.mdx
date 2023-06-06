@@ -1,0 +1,71 @@
+---
+title: Postgres Upgrader
+description: 'Quickly and safely upgrade your outdated Postgres instances'
+---
+<Frame type="glass">
+  <img src="/images/postgres-upgrader-screen.png" />
+</Frame>
+
+## How does it work?
+Let us walk you through the step-by-step of how Xeol helps you shorten your Postgres upgrade.
+
+### Pre-Flight Checks
+<Frame caption="Sample app hosted on AWS with Postgres 11">
+  <img src="/images/postgres-upgrade-1.png" />
+</Frame>
+
+Xeol starts with a set of checks to ensure that your current database instance is ready for replication.
+
+<CardGroup cols={2}>
+  <Card title="Table Checks" icon="square-1" color="#16a34a">
+    Validate that all tables have the correct primary keys and constraints.
+  </Card>
+  <Card title="DB Config Checks" icon="square-2" color="#16a34a">
+    Validate database's configurations such as supported versions and parameter groups.
+  </Card>
+</CardGroup>
+ 
+
+### Replication
+<Frame caption="Replicate Postgres 11 database to Postgres 12 database">
+  <img src="/images/postgres-upgrade-2.png" />
+</Frame>
+
+After all the pre-flight checks have been validated, Xeol kicks off a logical replication of your current outdated database to a new instance on the desired version number.
+
+<Warning>This step can take some time depending on the size of your database. We set guardrails on resource usage so we do not affect your production instance.</Warning>
+
+
+### Traffic Testing
+<Frame caption="Flood your new database with production traffic">
+  <img src="/images/postgres-upgrade-3.png" />
+</Frame>
+
+After replication, Xeol starts traffic testing the new database. 
+
+In this step, our aim is to boost your confidence that the new database will perform just as well on production as the old from both **performance** and **correctness** perspectives.
+
+<Note>Any **regressions** will be surfaced to you within the dashboard so your team can investigate ASAP.</Note>
+
+Xeol floods the new database with production traffic from the past week then give you a **report card** of how your new database did!
+
+
+### Cutover
+Finally, Xeol sets your old database to read-only and resets the sequences on the new database so that new inserts will not conflict with the existing rows from the old database.
+
+Currently, the actual cutover of traffic to your newly upgraded database need to be performed by your engineers.
+
+<Tip>Use [pgbouncer](https://github.com/pgbouncer/pgbouncer) to help you achieve a near zero downtime and zero data loss Postgres upgrade.</Tip>
+<Frame type="glass">
+  <img src="/images/postgres-upgrade-4.png" />
+</Frame>
+
+
+## What's coming next?
+<CardGroup cols={1}>
+  <Card title="pgbouncer" icon="lightbulb">
+    Insert pgbouncer between your VPC and Postgres database to automatically perform the production traffic cutover.
+  </Card>
+</CardGroup>
+
+Have suggestions? Reach us at `founders@xeol.io`
