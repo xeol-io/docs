@@ -29,8 +29,12 @@
   ],
   "navigation": [
     {
-      "group": "Quickstart",
-      "pages": ["home", "eol_scanning", "pg_upgrade", "get_started"]
+      "group": "🏃🏼 Quickstart",
+      "pages": ["home", "eol-scanning", "pg-upgrade", "get-started"]
+    },
+    {
+      "group": "⚖️ Legal",
+      "pages": ["agent-data", "terms", "privacy"]
     }
   ],
   "footerSocials": {
@@ -40,3 +44,5 @@
   },
   "backgroundImage": "/background.png"
 }
+
+

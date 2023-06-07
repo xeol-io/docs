@@ -1,0 +1,44 @@
+---
+title: Xeol Agent Data & Privacy
+description: "Our data and privacy practices with our `xeol-agent`"
+---
+
+## What does the `xeol-agent` do?
+
+<Note>Our `xeol-agent` source [code](https://github.com/xeol-io/xeol-agent) is completely open-source for any auditing you need to do.</Note>
+
+Our `xeol-agent` scans your Kubernetes cluster for EOL software you are running.
+
+
+### What data will exfil to Xeol?
+1. Metadata (**name**) on your Kubernetes instance; clusters, containers, deployments, namespaces, and pods.
+2. Metadata (**name**, **version**) on the software that are running within your containers such as OS, Databases, Programming Languages, Toolkits.
+3. The **email** that you signed up to the Xeol dashboard with.
+
+<Info>Here is the cluster [role](https://github.com/xeol-io/xeol-charts/blob/main/stable/xeol-agent/templates/cluster-role-readonly.yaml) `xeol-agent` will be using.</Info>
+
+
+### What will never exfil to Xeol?
+Anything not explicitly laid out in the section above!
+
+🚫 Xeol does **NOT** and **CANNOT** access your keys and secrets within your cloud infrastructure.
+
+🚫 Xeol does **NOT** exfil your database data.
+
+🚫 Xeol does **NOT** exfil your codebase.
+
+🚫 Xeol does **NOT** exfil any information about your cloud infrastructure.
+
+
+### What are we doing to protect your data?
+We are a **security-first** team coming from some of the most security focused companies (International banks, Datadog, etc). We do not take any data we hold on your behalf lightly.
+
+🔒 Xeol encrypts all data at rest with AWS RDS encryption using industry-standard AES-256 algorithm.
+
+🔒 Xeol only sends data over TLS 1.2 or greater.
+
+🔒 Xeol will remove all your company data within 3 months of end of service. This can be expedited if you message us at `privacy@xeol.io`
+
+
+### Concerns?
+If you still have any concerns on the data that we are holding on your behalf, please message us at `privacy@xeol.io`
