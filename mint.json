@@ -34,7 +34,7 @@
     },
     {
       "group": "⚖️ Legal",
-      "pages": ["terms", "privacy", "agent-data"]
+      "pages": ["agent-data", "terms", "privacy"]
     }
   ],
   "footerSocials": {
