@@ -30,10 +30,10 @@
   "navigation": [
     {
       "group": "🏃🏼 Quickstart",
-      "pages": ["home", "eol-scanning", "pg-upgrade", "get-started"]
+      "pages": ["home", "eol-scanning", "pg-upgrade", "pii-gateway"]
     },
     {
-      "group": "⚖️ Legal",
+      "group": "📜 Legal",
       "pages": ["agent-data", "terms", "privacy"]
     }
   ],

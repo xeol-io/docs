@@ -1,0 +1,133 @@
+---
+title: "🔒 PII Gateway"
+description: "Your customers' sensitive data **stays** with them so you can focus on building product"
+---
+<Info>When we refer to **sensitive data**, we mean **PII** (personally identifiable information), **PHI** (personal health information), and **PCI** (payment card information)</Info>
+
+<br />
+
+> We shouldn’t ask our customers to make a tradeoff between privacy and security. We need to offer them the best of both. 
+> 
+> - Tim Cook, CEO of Apple
+
+<br />
+
+## Why do you care?
+### Your customers care
+Your customers care how you handle their data so they pummel you with security questionaires, compliance proofs, etc during the sales process.
+
+### You need customer data
+Sometimes you need to bring your customers' data into your system to power your features.
+
+### Security implementation is not trivial
+To ensure your customers' data including sensitive data is safe, you must build an entire data security management lifecyle which includes encryption at rest, decryption at end, key management, etc. This still does not offer **total security** as breaches can still happen as long as you hold the sensitive data and keys.
+
+With our PII Gateway, you will no longer be on the hook for your customers' sensitive data because that data never leaves the customers' environment unencrypted by them.
+
+<br />
+
+## How does it work?
+<Frame caption="Without Xeol">
+  <img src="/images/pii-current.png" />
+</Frame>
+Currently, sensitive data from your customers are sent to you decrypted. This puts the entire **onus on you** to safely store and handle their sensitive data. 
+
+<Frame caption="With Xeol">
+  <img src="/images/pii-gateway.png" />
+</Frame>
+With Xeol, sensitive data **never** leaves your customer's VPC unencrypted. The sensitive data is encrypted end-to-end so your customers can sleep soundly at night.
+
+### Xeol PII Gateway
+Xeol's PII Gateway is deployed to your customer's environment on-premise so that they are in full control.
+The PII Gateway is responsible for public/private key creation, integration into key storage, encryption, decryption.
+
+1. The gateway will generate a public/private key pairing and store it within your customer's preferred key store.
+2. The gateway will encrypt all outbound data with the public key so you only receive encrypted data without the private key to decrypt it.
+3. The gateway will forward all incoming traffic to your customer's API. 
+
+TODO: Add how you will be hitting the gateway with passthrough body so it knows how to forward
+
+### Your environment
+You receive data from Xeol's PII Gateway that is encrypted with a key pairing that you **do not** have access to at all. This guarantees that the data you have on hand is useless even if you were to lose it. You can use, store, transmit the data as you see fit.
+
+### Xeol Decrypter
+To decrypt the data on your client applications so your users do not just see gibberish, embed our Xeol Decrypter within your client application.
+
+The Xeol Decrypter will OAuth with the Xeol PII Gateway to authenticate your end users, then pass on the private key can then be used to decryp the incoming encrypted data.
+
+Your users should still be able to view all their content unencrypted while you no longer have to manager the data security lifecycle for sensitive data.
+
+```javascript
+import React from "react";
+import Xeol from "xeol";
+
+const BoardUser: React.FC = () => {
+  const content = Xeol.Decrypter.decrypt(user);
+
+  return (
+    <header>
+      <h3>{content}</h3>
+    </header>
+  );
+};
+
+export default BoardUser;
+```
+
+### Third party apps 
+If you need to send unencrypted data to third-party apps, you can send the request to the PII Gateway to forward it for you after it decrypts the data.
+
+<br />
+
+## How to get started?
+### PII Gateway Terraform
+We have a **one-click** `Terraform` file for your customers to quickly deploy our PII Gateway on-premise.
+<Tabs>
+  <Tab title="AWS">
+    TODO: add link to PII Gateway TF for AWS
+  </Tab>
+  <Tab title="GCP">
+    TODO: add link to PII Gateway TF for GCP
+  </Tab>
+  <Tab title="Azure">
+    TODO: add link to PII Gateway TF for Azure
+  </Tab>
+  <Tab title="Hashicorp">
+    TODO: add link to PII Gateway TF for Hashicorp
+  </Tab>
+</Tabs>
+
+<br />
+
+### Decrypter SDK
+We have a `TypeScript` SDK for you to embed into your client applications to decrypt the encrypted data coming from your customers
+<Tabs>
+  <Tab title="Typescript">
+    TODO: add link to TS Xeol Decrypter
+  </Tab>
+</Tabs>
+
+<br />
+
+## FAQs
+<AccordionGroup>  
+  <Accordion title="Who has control of my customers' sensitive data?">
+    Your customers are in full control of their sensitive data. Their sensitive data never leaves their VPC unencrypted.
+  </Accordion>
+  <Accordion title="Who has control of the encryption keys?">
+    Your customers are in full control of their public/private keys. The private keys are only transmitted to the Xeol Decrypter and never stored besides within your customers' environment.
+    We support all major Key Management Systems from AWS, GCP, Azure, and Hashicorp.
+  </Accordion>
+  <Accordion title="What do you have access to?">
+    You get the data from your customers with the sensitive data encrypted. You can then decide to store, log, transmit, etc that data as you see fit without worrying about potentially leaking the sensitive data.
+  </Accordion>
+  <Accordion title="How can you decrypt the data on your dashboard?">
+    Embed the Xeol Decrypter to your client (dashboard, chat, etc) to receive your customers' private key after OAuth to decrypt the sensitive data.
+  </Accordion>
+  <Accordion title="Will the PII Gateway slow my requests?">
+    You should not see slow requests as a result of the PII Gateway. The gateway is written in Go and simply encrypts/decrypts sensitive data before forwarding the request.
+  </Accordion>
+  <Accordion title="How do you deal with 3P request forwarding and certificates?">
+    TODO
+  </Accordion>
+</AccordionGroup>
