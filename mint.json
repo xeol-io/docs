@@ -30,7 +30,11 @@
   "navigation": [
     {
       "group": "🏃🏼 Quickstart",
-      "pages": ["home", "eol-scanning", "pg-upgrade", "get-started"]
+      "pages": ["home", "eol-scanning", "get-started"]
+    },
+    {
+      "group": "Security",
+      "pages": ["security/attestation", "security/enclaves"]
     },
     {
       "group": "⚖️ Legal",

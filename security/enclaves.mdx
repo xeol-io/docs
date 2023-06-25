@@ -1,0 +1,60 @@
+---
+title: Enclaves
+---
+
+# Overview
+
+A secure enclave is a hardware based security feature of some modern CPUs that allows for
+cryptographic attestation all code and data running inside an enclave, along with complete isolation and
+confidentiality. Enclaves allow the end-user to verify that the code running inside the enclave
+has not been tampered with and is running on a trusted system.
+
+This is the secret sauce that powers Xeol and allows us to provide end-to-end confidential LLMs.
+When you use Xeol, you can be absolutely sure that we cannot read your prompts or responses,
+even if we wanted to.
+
+# Enclave Benefits
+
+The secure enclave promises complete isolation and confidentiality of the data and code
+running inside it. This means that the enclave can be used to store and process sensitive
+data without the need to trust the system it is running on. This is very powerful in a
+SaaS environment where the user does not have control over the system running the service.
+A new model of trust is created where the user only needs to trust the enclave and not the SaaS
+provider.
+
+Let's take a look at some of the ways enclaves are isolated:
+- **Hardware**: An enclave is physically isolated from the rest of the system at the
+hardware level. This means it has its own processing and memory resources that cannot
+be accessed directly by other components or processes within the system
+- **Secure Boot**: The enclave uses a secure boot process to ensure that the code running
+inside it is trusted and has not been tampered with. This prevents unauthorized code from
+running inside the enclave.
+- **Memory Encryption**: The enclave's memory is encrypted with a key that is only known
+to the CPU. This key is used to encrypt and decrypt data as it enters and leaves the enclave.
+If an attacker were to gain access to the system's memory, they would not be able to read
+or manipulate the enclave's memory.
+- **Remote Attestation**: The enclave can be remotely attested to prove that it is running
+on a trusted system. This is one of the most powerful features of enclaves as it allows
+the user to verify that the enclave is running on a trusted system without having to trust
+the system itself.
+
+# Attestation
+
+When a user wants to establish communication with an enclave, checks will first be
+performed to verify the authenticity of the enclave. This is done by having the enclave
+generate a cryptographic proof that can be verified by the user. The proof contains
+information about the enclave's identity, the code running inside, and the system it is
+running on.
+
+For Xeol, if any of the attestation checks fail, the user will be notified and will be
+unable to communicate with the LLM. However, if they succeed, the user can be sure that the
+LLM is running on a trusted and confidential system.
+
+# Examples
+
+There are a couple cloud providers that currently offer secure enclaves as a service. Xeol uses
+the [AWS Nitro Enclaves](https://aws.amazon.com/ec2/nitro/nitro-enclaves/) service.
+
+
+
+
