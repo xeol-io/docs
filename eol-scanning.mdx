@@ -1,33 +1,34 @@
 ---
 title: 'Xeol Scan'
-description: "Xeol's agentless scan of your builds in under 5 minutes"
+description: "Xeol's CI scanning of your builds in under 5 minutes"
 ---
 
 ## Xeol Dashboard
 
-**Step 1.** Get Access to Xeol
+### Step 1. Get Access to the Xeol Dashboard
 
-You will receive an invite in the mail to access your Xeol dashboard.
+You will recieve an email invite to the Xeol dashboard.
 
-<br />
-
-**Step 2.** Get API key
+### Step 2. Get API key
 
 Under the Settings tab, you will be able to generate an API Key.
 
-<br />
+### Step 3. Add Xeol CLI to your CI
 
-**Step 3.** Add Xeol CLI to your CI
-
-Add the following command to whichever CI script to start scanning.
+With you API key, you can now add Xeol scanning to your CI system. After you've built an image,
+you can scan it with Xeol.
 
 ```bash azure-pipeline.yml
 curl -sSfL https://raw.githubusercontent.com/xeol-io/xeol/main/install.sh | sh -s -- -b /usr/local/bin
 xeol $(repository):$(tag) --api-key=$(XEOL_API_KEY)
 ```
 
-<br />
+This will send EOL data about your builds back to the Xeol dashboard.
 
-**Step 4.** Create EOL policies 
+**Step 4.** Create EOL policies in the Dashboard
 
-Once Xeol is setup to scan your builds, it will report its results back to your Xeol dashboard where you will be able to create policies to warn or block builds.
+Now that you have data about your builds, you can create EOL policies in the dashboard.
+You can set a policy to WARN or DENY on a matching EOL Product.
+
+In the case of a DENY policy, if a build contains a product that is EOL, the build
+will exit with a non-zero exit code and fail the pipeline.
