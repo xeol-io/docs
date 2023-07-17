@@ -13,7 +13,7 @@
   },
   "topbarLinks": [
     {
-      "name": "Join Beta",
+      "name": "Sign Up!",
       "url": "https://www.xeol.io/"
     }
   ],
@@ -21,16 +21,17 @@
     "type": "github",
     "url": "https://github.com/xeol-io/xeol"
   },
-  "tabs": [
+  "anchors": [
     {
-      "name": "API Reference",
-      "url": "api-reference"
+        "name": "Contact Us",
+        "icon": "envelope",
+        "url": "https://www.xeol.io/get-started"
     }
   ],
   "navigation": [
     {
       "group": "🏃🏼 Quickstart",
-      "pages": ["home", "eol-scanning", "pg-upgrade", "get-started"]
+      "pages": ["home", "eol-scanning", "get-started"]
     },
     {
       "group": "⚖️ Legal",
@@ -40,6 +41,7 @@
   "footerSocials": {
     "github": "https://github.com/xeol-io",
     "linkedin": "https://www.linkedin.com/company/xeol",
+    "twitter":  "https://twitter.com/xeol_io",
     "website": "https://www.xeol.io/"
   },
   "backgroundImage": "/background.png"

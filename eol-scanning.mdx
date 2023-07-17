@@ -1,48 +1,33 @@
 ---
-title: 'EOL Scanning'
-description: 'Xeol helps you scan your Kubernetes clusters for your EOL software'
+title: 'Xeol Scan'
+description: "Xeol's agentless scan of your builds in under 5 minutes"
 ---
-
-## Xeol CLI
-
-**Step 1.** Install Xeol CLI:
-
-```bash curl
-curl -sSfL https://raw.githubusercontent.com/noqcks/xeol/main/install.sh | sh -s -- -b /usr/local/bin
-xeol mongo:3.2
-```
-
-For more information, check out our GitHub [repo](https://github.com/xeol-io/xeol).
-
 
 ## Xeol Dashboard
 
-<Info>
-  **Prerequisite** You should have helm installed.
-</Info>
+**Step 1.** Get Access to Xeol
 
-**Step 1.** Request Access to Xeol:
+You will receive an invite in the mail to access your Xeol dashboard.
 
-You can request access by joining our Beta [waitlist](https://www.xeol.io/).
+<br />
 
+**Step 2.** Get API key
 
-**Step 2.** Get API key:
+Under the Settings tab, you will be able to generate an API Key.
 
-Under the API tab, you will be able to generate an API Key.
+<br />
 
+**Step 3.** Add Xeol CLI to your CI
 
-**Step 3.** Prepare the `xeol-agent` YAML file:
+Add the following command to whichever CI script to start scanning.
 
-```bash vim
-xeolAgent: 
-  xeol: 
-    apiKey: <api-key>
+```bash azure-pipeline.yml
+curl -sSfL https://raw.githubusercontent.com/xeol-io/xeol/main/install.sh | sh -s -- -b /usr/local/bin
+xeol $(repository):$(tag) --api-key=$(XEOL_API_KEY)
 ```
 
+<br />
 
-**Step 4.** Install `xeol-agent` onto your Kubernetes cluster:
+**Step 4.** Create EOL policies 
 
-```bash helm
-helm repo add xeol https://charts.xeol.io 
-helm install xeol-agent -f values.yml xeol/xeol-agent
-```
+Once Xeol is setup to scan your builds, it will report its results back to your Xeol dashboard where you will be able to create policies to warn or block builds.
