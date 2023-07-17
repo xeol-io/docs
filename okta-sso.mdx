@@ -1,0 +1,35 @@
+---
+title: 'Xeol <-> Okta SSO'
+description: "Setup SSO for Xeol using Okta as the identity provider."
+---
+
+This document describes how add SSO to Xeol using Okta as the identity provider. First, we
+setup a new app in Okta, and then share the client connection details with the
+Xeol team.
+
+## 1. Create a new app in Okta
+
+Login to your Okta dashboard and under applications click `Create App Integration`
+
+![](/images/okta-create-app.png)
+
+A model will open up. Select `OIDC - OpenID Connect` and `Web Application` and click `Next`
+
+![](/images/okta-new-app-integration-modal.png)
+
+Setup the new app with the following settings:
+
+Sign-in redirect URIs: `https://auth.xeol.io/login/callback`
+Logo: `https://docs.xeol.io/images/xeol-logo.png`
+Controlled access: Choose what's best for your organization.
+
+![](/images/okta-new-app-integration-settings.png)
+
+Click `Save` and then open the applications settings.
+
+Note down the `Client ID` and `Client secret` and share them securely with
+the Xeol team.
+
+You can assign the application to the users that need access from with Okta as usual.
+
+We will connect SSO for your account and notify you when it's ready.

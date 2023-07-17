@@ -31,7 +31,12 @@
   "navigation": [
     {
       "group": "🏃🏼 Quickstart",
-      "pages": ["home", "eol-scanning", "get-started"]
+      "pages": [
+        "home",
+        "eol-scanning",
+        "get-started",
+        "okta-sso"
+      ]
     },
     {
       "group": "⚖️ Legal",
