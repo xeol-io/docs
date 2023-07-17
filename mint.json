@@ -34,9 +34,12 @@
       "pages": [
         "home",
         "eol-scanning",
-        "get-started",
-        "okta-sso"
+        "get-started"
       ]
+    },
+    {
+      "group": "🔐 SSO",
+      "pages": ["okta-sso"]
     },
     {
       "group": "⚖️ Legal",
