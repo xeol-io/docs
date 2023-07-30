@@ -43,7 +43,7 @@
     },
     {
       "group": "⚖️ Legal",
-      "pages": ["agent-data", "terms", "privacy"]
+      "pages": ["data-privacy", "terms", "privacy"]
     }
   ],
   "footerSocials": {
