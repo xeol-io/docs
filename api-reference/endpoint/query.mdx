@@ -7,11 +7,13 @@ description: "This endpoint checks if the provided software identifier(s) are en
 ### Body
 
 <ParamField body="identifiers" type="object[]">
-  list of softawre identifiers to check for end-of-life status
+  list of software identifiers to check for end-of-life status
 
   <Expandable title="identifier">
     <ResponseField name="type" type="string">
-      Software's identifier type, can be either `cpe`, `purl`, or `custom`
+      Software's identifier type.
+      
+      Can be either `cpe` `purl` `custom`
     </ResponseField>
 
     <ResponseField name="identifier" type="string">
@@ -39,11 +41,15 @@ description: "This endpoint checks if the provided software identifier(s) are en
     </ResponseField>
 
     <ResponseField name="eol" type="boolean">
-      Whether the matched artifact is end-of-life. `null` if an artifact could not be matched.
+      Whether the matched artifact is end-of-life.
+      
+      `null` if an artifact could not be matched.
     </ResponseField>
 
     <ResponseField name="artifact" type="object">
-      Matched artifact info. `null` if an artifact could not be matched.
+      Matched artifact info. 
+      
+      `null` if an artifact could not be matched.
 
       <Expandable title="artifact">
         <ResponseField name="name" type="string">
@@ -55,7 +61,9 @@ description: "This endpoint checks if the provided software identifier(s) are en
         </ResponseField>
 
         <ResponseField name="type" type="string">
-          Type of the matched artifact, either `software` or `package` or `os` or `product`
+          Type of the matched artifact.
+          
+          Can be either `software` `package` `os` `product`
         </ResponseField>
 
         <ResponseField name="released" type="datetime">
@@ -83,9 +91,9 @@ description: "This endpoint checks if the provided software identifier(s) are en
           "version": "3.14"
         },
         {
-          "type": "cpe",
-          "identifier": "cpe:/o:canonical:ubuntu_linux",
-          "version": "20.04"
+          "type": "purl",
+          "identifier": "pkg:python/python@3.8",
+          "version": "3.8"
         }
       ]
   }'
@@ -109,14 +117,14 @@ description: "This endpoint checks if the provided software identifier(s) are en
         }
       },
       {
-        "identifier": "cpe:/o:canonical:ubuntu_linux",
-        "version": "20.04",
+        "identifier": "pkg:python/python@3.8",
+        "version": "3.8",
         "eol": false,
         "artifact": {
-          "name": "Ubuntu",
-          "version": "20.04",
-          "type": "os",
-          "released": "2020-04-23 00:00:00",
+          "name": "Python",
+          "version": "3.8",
+          "type": "pkg",
+          "released": "2019-10-14 00:00:00",
           "lts": false
         }
       }
