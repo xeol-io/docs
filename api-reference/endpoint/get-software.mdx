@@ -1,0 +1,66 @@
+---
+title: "Get Software Info"
+api: "GET https://eol.xeol.com/api/v1/"
+description: "This endpoint gets the software's releases data"
+---
+
+### Body
+
+<ParamField body="purls" type="string[]">
+  list of purls to check for end-of-life state
+</ParamField>
+
+### Response
+
+<ResponseField name="eol" type="boolean">
+  Whether the matched artifact is end-of-life
+</ResponseField>
+
+<ResponseField name="artifact" type="object">
+  The matched artifact from the provided `purl`
+
+  <Expandable title="artifact">
+    <ResponseField name="name" type="string">
+      Name of the matched artifact
+    </ResponseField>
+
+    <ResponseField name="version" type="string">
+      Release cycle of the matched artifact
+    </ResponseField>
+
+    <ResponseField name="type" type="string">
+      Type of the matched artifact, either `software` or `package` or `os` or `product`
+    </ResponseField>
+
+    <ResponseField name="released" type="datetime">
+      Release date of the matched artifact
+    </ResponseField>
+
+    <ResponseField name="lts" type="boolean">
+      Whether the matched artifact has `Long Term Support`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+  ```bash Example Request
+  curl --location --request GET 'https://eol.xeol.com/api/v1/{purl}' \
+  --header 'Content-Type: application/json' \
+  --header 'API-Key: <API_KEY>' \
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "eol": false,
+    "artifact": {
+      "name": "Ubuntu",
+      "version": "20.04",
+      "type": "os",
+      "released": "2020-04-23 00:00:00",
+      "lts": true
+    }
+  }
+  ```
+</ResponseExample>

@@ -14,7 +14,7 @@
   "topbarLinks": [
     {
       "name": "Sign Up!",
-      "url": "https://www.xeol.io/"
+      "url": "https://www.xeol.io/get-started"
     }
   ],
   "topbarCtaButton": {
@@ -23,9 +23,9 @@
   },
   "anchors": [
     {
-        "name": "Contact Us",
-        "icon": "envelope",
-        "url": "https://www.xeol.io/get-started"
+        "name": "API References",
+        "icon": "code",
+        "url": "api-reference"
     }
   ],
   "navigation": [
@@ -43,9 +43,26 @@
     },
     {
       "group": "⚖️ Legal",
-      "pages": ["data-privacy", "terms", "privacy"]
+      "pages": [
+        "legal/data-privacy", 
+        "legal/terms",
+        "legal/privacy"
+      ]
+    },
+    {
+      "group": "EOL API Playground",
+      "pages": [
+        "api-reference/authentication",
+        "api-reference/endpoint/query"
+      ]
     }
   ],
+  "api": {
+    "baseUrl": "https://mintlify.com/api",
+    "auth": {
+      "method": "bearer"
+    }
+  },
   "footerSocials": {
     "github": "https://github.com/xeol-io",
     "linkedin": "https://www.linkedin.com/company/xeol",
