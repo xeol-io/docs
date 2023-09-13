@@ -6,22 +6,36 @@ description: "This endpoint checks if the provided software identifier(s) are en
 
 ### Body
 
-<ParamField body="identifiers" type="object[]">
+<ParamField body="identifiers" type="object[]" required="true">
   list of software identifiers to check for end-of-life status
 
   <Expandable title="identifier">
     <ResponseField name="type" type="string">
-      Software's identifier type.
+      Identifier type for this software.
       
       Can be either `cpe` `purl` `custom`
     </ResponseField>
 
     <ResponseField name="identifier" type="string">
-      Unique identifier string for the software. If custom, use software name with vendor name
+      Unique identifier string for the software.
+      
+      If custom, just use the software's name like this: `redis`
     </ResponseField>
 
     <ResponseField name="version" type="string">
-      Software version
+      Version for this software
+    </ResponseField>
+
+    <ResponseField name="lts" type="boolean">
+      Whether the software has long term support
+
+      If left out then it will default to `false`
+    </ResponseField>
+
+    <ResponseField name="els" type="UUID">
+      UUID for this software's extended lifecycle support.
+
+      If left out then it will default to `Standard Support`
     </ResponseField>
   </Expandable>
 </ParamField>
@@ -61,9 +75,7 @@ description: "This endpoint checks if the provided software identifier(s) are en
         </ResponseField>
 
         <ResponseField name="type" type="string">
-          Type of the matched artifact.
-          
-          Can be either `software` `package` `os` `product`
+          Type of the matched artifact, either `software` or `package` or `os` or `product`
         </ResponseField>
 
         <ResponseField name="released" type="datetime">
@@ -73,13 +85,32 @@ description: "This endpoint checks if the provided software identifier(s) are en
         <ResponseField name="lts" type="boolean">
           Whether the matched artifact has `Long Term Support`
         </ResponseField>
+
+        <ResponseField name="els" type="object[]">
+          All availabe support including extended lifecycle support for matched artifact
+          
+          This will always have at least **one** item.
+          <Expandable title="els">
+            <ResponseField name="id" type="UUID">
+              Unique support ID 
+            </ResponseField>
+
+            <ResponseField name="name" type="string">
+              Official support name
+            </ResponseField>
+
+            <ResponseField name="eol" type="datetime">
+              End-of-life date
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
       </Expandable>
     </ResponseField>
   </Expandable>
 </ResponseField>
 
 <RequestExample>
-  ```bash Example Request
+  ```bash curl
   curl --location --request POST 'https://eol.xeol.com/api/v1/query' \
   --header 'Content-Type: application/json' \
   --header 'Authorization: <XEOL_API_KEY>' \
@@ -88,12 +119,15 @@ description: "This endpoint checks if the provided software identifier(s) are en
         {
           "type": "cpe",
           "identifier": "cpe:/o:alpinelinux:alpine_linux",
-          "version": "3.14"
+          "version": "3.14",
+          "lts": false,
         },
         {
           "type": "purl",
           "identifier": "pkg:python/python@3.8",
-          "version": "3.8"
+          "version": "3.8",
+          "lts": false,
+          "els": "41a79382-9a93-4bec-a995-56fd7fdff9ff"
         }
       ]
   }'
@@ -101,7 +135,7 @@ description: "This endpoint checks if the provided software identifier(s) are en
 </RequestExample>
 
 <ResponseExample>
-  ```json Response
+  ```json 200
   {
     "results": [
       {
@@ -113,19 +147,38 @@ description: "This endpoint checks if the provided software identifier(s) are en
           "version": "3.14",
           "type": "os",
           "released": "2021-06-15 00:00:00",
-          "lts": false
+          "lts": false,
+          "els": [
+            {
+              "id": "88722d5c-8f0f-4d30-be27-61f59ef79615"
+              "name": "Standard Support",
+              "eol": "2023-05-01 00:00:00"
+            },
+          ]
         }
       },
       {
         "identifier": "pkg:python/python@3.8",
         "version": "3.8",
-        "eol": false,
+        "eol": true,
         "artifact": {
           "name": "Python",
           "version": "3.8",
           "type": "pkg",
           "released": "2019-10-14 00:00:00",
-          "lts": false
+          "lts": false,
+          "els": [
+            {
+              "id": "bec9e158-549c-43ee-8123-4dcf98752298"
+              "name": "Active Support",
+              "eol": "2021-05-03 00:00:00"
+            },
+            {
+              "id": "41a79382-9a93-4bec-a995-56fd7fdff9ff"
+              "name": "Security Support",
+              "eol": "2024-10-14 00:00:00"
+            },
+          ]
         }
       }
     ]

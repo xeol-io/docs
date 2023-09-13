@@ -1,66 +1,91 @@
 ---
 title: "Get Software Info"
-api: "GET https://eol.xeol.com/api/v1/"
-description: "This endpoint gets the software's releases data"
+api: "GET https://eol.xeol.com/api/v1/{identifier}"
+description: "This endpoint gets a software's support information"
 ---
 
-### Body
+### Parameters
 
-<ParamField body="purls" type="string[]">
-  list of purls to check for end-of-life state
+<ParamField body="identifier" type="string">
+  Software's identifier.
+  
+  Can be either a `cpe`, `purl`, or `custom`
 </ParamField>
 
 ### Response
 
-<ResponseField name="eol" type="boolean">
-  Whether the matched artifact is end-of-life
+<ResponseField name="name" type="string">
+  Name of the matched artifact
 </ResponseField>
 
-<ResponseField name="artifact" type="object">
-  The matched artifact from the provided `purl`
+<ResponseField name="version" type="string">
+  Release cycle of the matched artifact
+</ResponseField>
 
-  <Expandable title="artifact">
+<ResponseField name="type" type="string">
+  Type of the matched artifact, either `software` or `package` or `os` or `product`
+</ResponseField>
+
+<ResponseField name="released" type="datetime">
+  Release date of the matched artifact
+</ResponseField>
+
+<ResponseField name="lts" type="boolean">
+  Whether the matched artifact has `Long Term Support`
+</ResponseField>
+
+<ResponseField name="els" type="object[]">
+  All availabe support including extended lifecycle support for matched artifact
+  
+  This will always have at least **one** item.
+  <Expandable title="els">
+    <ResponseField name="id" type="UUID">
+      Unique support ID 
+    </ResponseField>
+
     <ResponseField name="name" type="string">
-      Name of the matched artifact
+      Official support name
     </ResponseField>
 
-    <ResponseField name="version" type="string">
-      Release cycle of the matched artifact
-    </ResponseField>
-
-    <ResponseField name="type" type="string">
-      Type of the matched artifact, either `software` or `package` or `os` or `product`
-    </ResponseField>
-
-    <ResponseField name="released" type="datetime">
-      Release date of the matched artifact
-    </ResponseField>
-
-    <ResponseField name="lts" type="boolean">
-      Whether the matched artifact has `Long Term Support`
+    <ResponseField name="eol" type="datetime">
+      End-of-life date
     </ResponseField>
   </Expandable>
 </ResponseField>
 
 <RequestExample>
-  ```bash Example Request
-  curl --location --request GET 'https://eol.xeol.com/api/v1/{purl}' \
+  ```bash curl
+  curl --location --request GET 'https://eol.xeol.com/api/v1/cpe%3A%2Fo%3Aredhat%3Aenterprise_linux%3A6' \
   --header 'Content-Type: application/json' \
-  --header 'API-Key: <API_KEY>' \
+  --header 'Authorization: <XEOL_API_KEY>' \
   ```
 </RequestExample>
 
 <ResponseExample>
-  ```json Response
+  ```json 200
   {
-    "eol": false,
-    "artifact": {
-      "name": "Ubuntu",
-      "version": "20.04",
-      "type": "os",
-      "released": "2020-04-23 00:00:00",
-      "lts": true
-    }
+    "name": "Red Hat Enterprise Linux",
+    "version": "6",
+    "type": "os",
+    "released": "2010-11-09 00:00:00",
+    "lts": false,
+    "els": [
+      {
+        "id": "0fcc7bfd-759b-4a9f-a062-87c73149ee86"
+        "name": "Full Support",
+        "eol": "2016-05-10 00:00:00"
+      },
+      {
+        "id": "17b47d7b-e36a-41f0-b80e-2fd0cf32c33f"
+        "name": "Maintenance Support",
+        "eol": "2020-11-30 00:00:00"
+      },
+      {
+        "id": "ea418ed0-786c-4b7a-9f56-3f042ec5621e"
+        "name": "Extended Life Cycle Support",
+        "eol": "2024-06-30 00:00:00"
+      }
+    ]
   }
   ```
 </ResponseExample>

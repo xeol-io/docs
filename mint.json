@@ -8,7 +8,10 @@
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#722ed1",
-    "light": "#1677ff"
+    "light": "#722ed1",
+    "background": {
+      "dark": "#000000"
+    }
   },
   "topbarLinks": [
     {
@@ -52,6 +55,7 @@
       "group": "EOL API Playground",
       "pages": [
         "api-reference/authentication",
+        "api-reference/endpoint/get-software",
         "api-reference/endpoint/query"
       ]
     }
