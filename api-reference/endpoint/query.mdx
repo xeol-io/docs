@@ -27,13 +27,13 @@ description: "This endpoint checks if the provided software identifier(s) are en
     </ResponseField>
 
     <ResponseField name="lts" type="boolean">
-      Whether the software has long term support
+      Whether the software has `Long Term Support`
 
       If left out then it will default to `false`
     </ResponseField>
 
     <ResponseField name="els" type="UUID">
-      UUID for this software's extended lifecycle support.
+      UUID for this software's `Extended Lifecycle Support`
 
       If left out then it will default to `Standard Support`
     </ResponseField>
@@ -87,7 +87,7 @@ description: "This endpoint checks if the provided software identifier(s) are en
         </ResponseField>
 
         <ResponseField name="els" type="object[]">
-          All availabe support including extended lifecycle support for matched artifact
+          All availabe support including `Extended Lifecycle Support` for matched artifact
           
           This will always have at least **one** item.
           <Expandable title="els">
