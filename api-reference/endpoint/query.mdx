@@ -1,0 +1,146 @@
+---
+title: "Get Entity Support Info"
+api: "POST https://eol.xeol.com/api/v1/query"
+description: "This endpoint gets entity support information"
+---
+
+### Body
+
+<ParamField body="identifiers" type="string[]" required="true">
+  List of entity identifiers to get support information on
+
+  Only one of `cpe`, `purl`, `custom` identifier can be provided
+
+  <Expandable title="identifier">
+    <ResponseField name="cpe" type="string">
+      Match entity based on `cpe`
+    </ResponseField>
+
+    <ResponseField name="purl" type="string">
+      Match entity based on `purl`
+    </ResponseField>
+
+    <ResponseField name="custom" type="object">
+      Match entity based on entity name and version
+
+      <Expandable title="custom">
+        <ResponseField name="name" type="string">
+          Name for the entity
+        </ResponseField>
+
+        <ResponseField name="version" type="string">
+          Version for this entity, supports wildcard like this `9.*`
+
+          Only use if type is `custom` as versions are included in `cpe` and `purl`
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ParamField>
+
+### Response
+
+<ResponseField name="results" type="object[]">
+  List of entity with their listed supports
+
+  <Expandable title="result">
+    <ResponseField name="identifier" type="string">
+      Identifier of the matched entity
+
+      Can be either `cpe` `purl`
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Name of the matched entity
+    </ResponseField>
+
+    <ResponseField name="version" type="string">
+      Release cycle of the matched entity
+    </ResponseField>
+
+    <ResponseField name="type" type="string">
+      Type of the matched entity
+      
+      Can be either `service` `device` `software` `package` `os`
+    </ResponseField>
+
+    <ResponseField name="released" type="datetime">
+      Release date of the matched entity
+    </ResponseField>
+
+    <ResponseField name="lts" type="boolean">
+      Whether the matched entity has `Long Term Support`
+    </ResponseField>
+
+    <ResponseField name="support" type="object[]">
+      All availabe support including `Extended Lifecycle Support` for matched entity
+      
+      This will always have at least **one** item.
+      <Expandable title="support">
+        <ResponseField name="id" type="id">
+          Support ID 
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          Official support name
+        </ResponseField>
+
+        <ResponseField name="eol" type="datetime">
+          End-of-life date
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+  ```bash curl
+  curl --location --request POST 'https://eol.xeol.com/api/v1/query' \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: <XEOL_API_KEY>' \
+  --data-raw '{
+    "identifiers": [
+      {
+        "custom": {
+          "name": "Red Hat Enterprise Linux",
+          "version": "6"
+        }
+      }
+    ]
+  }'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json 200
+  {
+    "results": [
+      {
+        "identifier": "cpe:/o:redhat:enterprise_linux:6",
+        "name": "Red Hat Enterprise Linux",
+        "version": "6",
+        "type": "os",
+        "released": "2010-11-09 00:00:00",
+        "lts": false,
+        "support": [
+          {
+            "id": "RHEL_FULL_SUPPORT"
+            "name": "Full Support",
+            "eol": "2016-05-10 00:00:00"
+          },
+          {
+            "id": "RHEL_MAINTENANCE_SUPPORT"
+            "name": "Maintenance Support",
+            "eol": "2020-11-30 00:00:00"
+          },
+          {
+            "id": "RHEL_EXTENDED_LIFE_CYCLE_SUPPORT"
+            "name": "Extended Life Cycle Support",
+            "eol": "2024-06-30 00:00:00"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+</ResponseExample>

@@ -1,0 +1,182 @@
+---
+title: "Check Entity EOL"
+api: "POST https://eol.xeol.com/api/v1/check"
+description: "This endpoint checks whether an entity matched with an identifier is EOL"
+---
+
+### Body
+
+<ParamField body="identifiers" type="object[]" required="true">
+  list of entity identifiers to check for end-of-life status
+
+  Only one of `cpe`, `purl`, `custom` identifier can be provided
+
+  <Expandable title="identifier">
+    <ResponseField name="cpe" type="string">
+      Match entity based on `cpe`
+    </ResponseField>
+
+    <ResponseField name="purl" type="string">
+      Match entity based on `purl`
+    </ResponseField>
+
+    <ResponseField name="custom" type="object">
+      Match entity based on entity name and version
+
+      <Expandable title="custom">
+        <ResponseField name="name" type="string">
+          Name for the entity
+        </ResponseField>
+
+        <ResponseField name="version" type="string">
+          Version for this entity, supports wildcard like this `9.*`
+
+          Only use if type is `custom` as versions are included in `cpe` and `purl`
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="support" type="id">
+      Support ID for the entity
+
+      If left out it will default to the standard support policy offered by the vendor
+    </ResponseField>
+  </Expandable>
+</ParamField>
+
+### Response
+
+<ResponseField name="results" type="object[]">
+  List of matched entities with `eol` status
+
+  <Expandable title="result">
+    <ResponseField name="identifier" type="string">
+      Entity identifier string for the matched entity
+    </ResponseField>
+
+    <ResponseField name="version" type="string">
+      Entity version for the matched entity
+    </ResponseField>
+
+    <ResponseField name="eol" type="boolean | null">
+      Whether the matched entity is end-of-life.
+      
+      `null` if an entity could not be matched.
+    </ResponseField>
+
+    <ResponseField name="entity" type="object | null">
+      Matched entity info. 
+      
+      `null` if an entity could not be matched.
+
+      <Expandable title="entity">
+        <ResponseField name="name" type="string">
+          Name of the matched entity
+        </ResponseField>
+
+        <ResponseField name="version" type="string">
+          Release cycle of the matched entity
+        </ResponseField>
+
+        <ResponseField name="type" type="string">
+          Type of the matched entity
+          
+          Can be either `service` `device` `software` `package` `os`
+        </ResponseField>
+
+        <ResponseField name="released" type="datetime">
+          Release date of the matched entity
+        </ResponseField>
+
+        <ResponseField name="lts" type="boolean">
+          Whether the matched entity has `Long Term Support`
+        </ResponseField>
+
+        <ResponseField name="support" type="object[]">
+          All availabe support including `Extended Lifecycle Support` for matched entity
+          
+          This will always have at least **one** item.
+          <Expandable title="support">
+            <ResponseField name="id" type="id">
+              Support ID 
+            </ResponseField>
+
+            <ResponseField name="name" type="string">
+              Official support name
+            </ResponseField>
+
+            <ResponseField name="eol" type="datetime">
+              End-of-life date
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+  ```bash curl
+  curl --location --request POST 'https://eol.xeol.com/api/v1/check' \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: <XEOL_API_KEY>' \
+  --data-raw '{
+      "identifiers": [
+        {
+          "cpe": "cpe:/o:alpinelinux:alpine_linux:3.14",
+        },
+        {
+          "purl": "pkg:python/python@3.8",
+          "support": "PYTHON_SECURITY_SUPPORT"
+        }
+      ]
+  }'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json 200
+  {
+    "results": [
+      {
+        "identifier": "cpe:/o:alpinelinux:alpine_linux:3.14",
+        "version": "3.14",
+        "eol": true,
+        "entity": {
+          "name": "Alpine Linux",
+          "version": "3.14",
+          "type": "os",
+          "released": "2021-06-15 00:00:00",
+          "lts": false,
+          "support": [
+            {
+              "id": "STANDARD_SUPPORT"
+              "name": "Standard Support",
+              "eol": "2023-05-01 00:00:00"
+            },
+          ]
+        }
+      },
+      {
+        "identifier": "pkg:python/python@3.8",
+        "version": "3.8",
+        "eol": false,
+        "entity": {
+          "name": "Python",
+          "version": "3.8",
+          "type": "pkg",
+          "released": "2019-10-14 00:00:00",
+          "lts": false,
+          "support": [
+            {
+              "id": "PYTHON_SECURITY_SUPPORT"
+              "name": "Security Support",
+              "eol": "2024-10-14 00:00:00"
+            }
+          ]
+        }
+      }
+    ]
+  }
+  ```
+</ResponseExample>

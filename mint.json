@@ -7,14 +7,16 @@
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#2C98E7",
-    "light": "#2C98E7",
-    "dark": "#2C98E7"
+    "primary": "#722ed1",
+    "light": "#722ed1",
+    "background": {
+      "dark": "#000000"
+    }
   },
   "topbarLinks": [
     {
       "name": "Sign Up!",
-      "url": "https://www.xeol.io/"
+      "url": "https://www.xeol.io/get-started"
     }
   ],
   "topbarCtaButton": {
@@ -23,29 +25,46 @@
   },
   "anchors": [
     {
-        "name": "Contact Us",
-        "icon": "envelope",
-        "url": "https://www.xeol.io/get-started"
+        "name": "API References",
+        "icon": "code",
+        "url": "api-reference"
     }
   ],
   "navigation": [
     {
-      "group": "🏃🏼 Quickstart",
+      "group": "Quickstart",
       "pages": [
         "home",
-        "eol-scanning",
-        "get-started"
+        "eol-scanning"
       ]
     },
     {
-      "group": "🔐 SSO",
+      "group": "SSO",
       "pages": ["okta-sso"]
     },
     {
-      "group": "⚖️ Legal",
-      "pages": ["data-privacy", "terms", "privacy"]
+      "group": "Legal",
+      "pages": [
+        "legal/data-privacy", 
+        "legal/terms",
+        "legal/privacy"
+      ]
+    },
+    {
+      "group": "EOL API",
+      "pages": [
+        "api-reference/get-started",
+        "api-reference/endpoint/query",
+        "api-reference/endpoint/check"
+      ]
     }
   ],
+  "api": {
+    "baseUrl": "https://eol.xeol.com/v1/api",
+    "auth": {
+      "method": "key"
+    }
+  },
   "footerSocials": {
     "github": "https://github.com/xeol-io",
     "linkedin": "https://www.linkedin.com/company/xeol",
