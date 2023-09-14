@@ -54,8 +54,8 @@
       "group": "EOL API",
       "pages": [
         "api-reference/get-started",
-        "api-reference/endpoint/get-software",
-        "api-reference/endpoint/query"
+        "api-reference/endpoint/query",
+        "api-reference/endpoint/check"
       ]
     }
   ],

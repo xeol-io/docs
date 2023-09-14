@@ -1,15 +1,15 @@
 ---
-title: "Check Entity EOL"
-api: "POST https://eol.xeol.com/api/v1/check"
-description: "This endpoint checks if the provided entity identifier(s) are end-of-life"
+title: "Get Entity Info"
+api: "POST https://eol.xeol.com/api/v1/query"
+description: "This endpoint gets an entity's support information"
 ---
 
 ### Body
 
-<ParamField body="identifiers" type="object[]" required="true">
-  list of entity identifiers to check for end-of-life status
+<ParamField body="entities" type="string[]" required="true">
+  List of entity identifiers to get support information on
 
-  <Expandable title="identifier">
+  <Expandable title="entity">
     <ResponseField name="type" type="string">
       Identifier type for this entity.
       
@@ -25,78 +25,50 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
     <ResponseField name="version" type="string">
       Version for this entity
     </ResponseField>
-
-    <ResponseField name="support" type="id">
-      ID for this entity's support level including `Extended Lifecycle Support`
-
-      If left out then it will default to `Standard Support`
-    </ResponseField>
   </Expandable>
 </ParamField>
 
 ### Response
 
 <ResponseField name="results" type="object[]">
-  List of matched entities with `eol` status
+  List of entity with their listed supports
 
   <Expandable title="result">
-    <ResponseField name="identifier" type="string">
-      Entity identifier string for the matched entity
+    <ResponseField name="name" type="string">
+      Name of the matched entity
     </ResponseField>
 
     <ResponseField name="version" type="string">
-      Entity version for the matched entity
+      Release cycle of the matched entity
     </ResponseField>
 
-    <ResponseField name="eol" type="boolean">
-      Whether the matched entity is end-of-life.
-      
-      `null` if an entity could not be matched.
+    <ResponseField name="type" type="string">
+      Type of the matched entity, either `software` or `package` or `os` or `product`
     </ResponseField>
 
-    <ResponseField name="entity" type="object">
-      Matched entity info. 
-      
-      `null` if an entity could not be matched.
+    <ResponseField name="released" type="datetime">
+      Release date of the matched entity
+    </ResponseField>
 
-      <Expandable title="entity">
+    <ResponseField name="lts" type="boolean">
+      Whether the matched entity has `Long Term Support`
+    </ResponseField>
+
+    <ResponseField name="support" type="object[]">
+      All availabe support including `Extended Lifecycle Support` for matched entity
+      
+      This will always have at least **one** item.
+      <Expandable title="support">
+        <ResponseField name="id" type="id">
+          Unique support ID 
+        </ResponseField>
+
         <ResponseField name="name" type="string">
-          Name of the matched entity
+          Official support name
         </ResponseField>
 
-        <ResponseField name="version" type="string">
-          Release cycle of the matched entity
-        </ResponseField>
-
-        <ResponseField name="type" type="string">
-          Type of the matched entity, either `software` or `package` or `os` or `product`
-        </ResponseField>
-
-        <ResponseField name="released" type="datetime">
-          Release date of the matched entity
-        </ResponseField>
-
-        <ResponseField name="lts" type="boolean">
-          Whether the matched entity has `Long Term Support`
-        </ResponseField>
-
-        <ResponseField name="support" type="object[]">
-          All availabe support including `Extended Lifecycle Support` for matched entity
-          
-          This will always have at least **one** item.
-          <Expandable title="support">
-            <ResponseField name="id" type="id">
-              Unique support ID 
-            </ResponseField>
-
-            <ResponseField name="name" type="string">
-              Official support name
-            </ResponseField>
-
-            <ResponseField name="eol" type="datetime">
-              End-of-life date
-            </ResponseField>
-          </Expandable>
+        <ResponseField name="eol" type="datetime">
+          End-of-life date
         </ResponseField>
       </Expandable>
     </ResponseField>
@@ -105,23 +77,17 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
 
 <RequestExample>
   ```bash curl
-  curl --location --request POST 'https://eol.xeol.com/api/v1/check' \
+  curl --location --request POST 'https://eol.xeol.com/api/v1/query' \
   --header 'Content-Type: application/json' \
   --header 'Authorization: <XEOL_API_KEY>' \
   --data-raw '{
-      "identifiers": [
-        {
-          "type": "cpe",
-          "identifier": "cpe:/o:alpinelinux:alpine_linux",
-          "version": "3.14",
-        },
-        {
-          "type": "purl",
-          "identifier": "pkg:python/python@3.8",
-          "version": "3.8",
-          "support": "python-security-support"
-        }
-      ]
+    "identifiers": [
+      {
+        "type": "custom",
+        "identifier": "Red Hat Enterprise Linux",
+        "version": "6"
+      }
+    ]
   }'
   ```
 </RequestExample>
@@ -131,47 +97,28 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
   {
     "results": [
       {
-        "identifier": "cpe:/o:alpinelinux:alpine_linux",
-        "version": "3.14",
-        "eol": true,
-        "entity": {
-          "name": "Alpine",
-          "version": "3.14",
-          "type": "os",
-          "released": "2021-06-15 00:00:00",
-          "lts": false,
-          "support": [
-            {
-              "id": "alpine-standard-support"
-              "name": "Standard Support",
-              "eol": "2023-05-01 00:00:00"
-            },
-          ]
-        }
-      },
-      {
-        "identifier": "pkg:python/python@3.8",
-        "version": "3.8",
-        "eol": true,
-        "entity": {
-          "name": "Python",
-          "version": "3.8",
-          "type": "pkg",
-          "released": "2019-10-14 00:00:00",
-          "lts": false,
-          "support": [
-            {
-              "id": "python-active-support"
-              "name": "Active Support",
-              "eol": "2021-05-03 00:00:00"
-            },
-            {
-              "id": "python-security-support"
-              "name": "Security Support",
-              "eol": "2024-10-14 00:00:00"
-            },
-          ]
-        }
+        "name": "Red Hat Enterprise Linux",
+        "version": "6",
+        "type": "os",
+        "released": "2010-11-09 00:00:00",
+        "lts": false,
+        "support": [
+          {
+            "id": "rhel-full-support"
+            "name": "Full Support",
+            "eol": "2016-05-10 00:00:00"
+          },
+          {
+            "id": "rhel-maintenance-support"
+            "name": "Maintenance Support",
+            "eol": "2020-11-30 00:00:00"
+          },
+          {
+            "id": "rhel-extended-life-cycle-support"
+            "name": "Extended Life Cycle Support",
+            "eol": "2024-06-30 00:00:00"
+          }
+        ]
       }
     ]
   }
