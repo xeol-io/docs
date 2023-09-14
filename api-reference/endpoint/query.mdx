@@ -1,33 +1,33 @@
 ---
-title: "Check Software EOL"
+title: "Check Entity EOL"
 api: "POST https://eol.xeol.com/api/v1/check"
-description: "This endpoint checks if the provided software identifier(s) are end-of-life"
+description: "This endpoint checks if the provided entity identifier(s) are end-of-life"
 ---
 
 ### Body
 
 <ParamField body="identifiers" type="object[]" required="true">
-  list of software identifiers to check for end-of-life status
+  list of entity identifiers to check for end-of-life status
 
   <Expandable title="identifier">
     <ResponseField name="type" type="string">
-      Identifier type for this software.
+      Identifier type for this entity.
       
       Can be either `cpe` `purl` `custom`
     </ResponseField>
 
     <ResponseField name="identifier" type="string">
-      Unique identifier string for the software.
+      Unique identifier string for the entity.
       
-      If `custom`, just use the software's name like this: `Red Hat Enterprise Linux`
+      If `custom`, just use the entity's name like this: `Red Hat Enterprise Linux`
     </ResponseField>
 
     <ResponseField name="version" type="string">
-      Version for this software
+      Version for this entity
     </ResponseField>
 
-    <ResponseField name="support" type="UUID">
-      UUID for this software's support level including `Extended Lifecycle Support`
+    <ResponseField name="support" type="id">
+      ID for this entity's support level including `Extended Lifecycle Support`
 
       If left out then it will default to `Standard Support`
     </ResponseField>
@@ -37,55 +37,55 @@ description: "This endpoint checks if the provided software identifier(s) are en
 ### Response
 
 <ResponseField name="results" type="object[]">
-  List of matched artifacts with `eol` status
+  List of matched entities with `eol` status
 
   <Expandable title="result">
     <ResponseField name="identifier" type="string">
-      Software identifier string for the matched artifact
+      Entity identifier string for the matched entity
     </ResponseField>
 
     <ResponseField name="version" type="string">
-      Software version for the matched artifact
+      Entity version for the matched entity
     </ResponseField>
 
     <ResponseField name="eol" type="boolean">
-      Whether the matched artifact is end-of-life.
+      Whether the matched entity is end-of-life.
       
-      `null` if an artifact could not be matched.
+      `null` if an entity could not be matched.
     </ResponseField>
 
-    <ResponseField name="artifact" type="object">
-      Matched artifact info. 
+    <ResponseField name="entity" type="object">
+      Matched entity info. 
       
-      `null` if an artifact could not be matched.
+      `null` if an entity could not be matched.
 
-      <Expandable title="artifact">
+      <Expandable title="entity">
         <ResponseField name="name" type="string">
-          Name of the matched artifact
+          Name of the matched entity
         </ResponseField>
 
         <ResponseField name="version" type="string">
-          Release cycle of the matched artifact
+          Release cycle of the matched entity
         </ResponseField>
 
         <ResponseField name="type" type="string">
-          Type of the matched artifact, either `software` or `package` or `os` or `product`
+          Type of the matched entity, either `software` or `package` or `os` or `product`
         </ResponseField>
 
         <ResponseField name="released" type="datetime">
-          Release date of the matched artifact
+          Release date of the matched entity
         </ResponseField>
 
         <ResponseField name="lts" type="boolean">
-          Whether the matched artifact has `Long Term Support`
+          Whether the matched entity has `Long Term Support`
         </ResponseField>
 
         <ResponseField name="support" type="object[]">
-          All availabe support including `Extended Lifecycle Support` for matched artifact
+          All availabe support including `Extended Lifecycle Support` for matched entity
           
           This will always have at least **one** item.
           <Expandable title="support">
-            <ResponseField name="id" type="UUID">
+            <ResponseField name="id" type="id">
               Unique support ID 
             </ResponseField>
 
@@ -119,7 +119,7 @@ description: "This endpoint checks if the provided software identifier(s) are en
           "type": "purl",
           "identifier": "pkg:python/python@3.8",
           "version": "3.8",
-          "support": "41a79382-9a93-4bec-a995-56fd7fdff9ff"
+          "support": "python-security-support"
         }
       ]
   }'
@@ -134,7 +134,7 @@ description: "This endpoint checks if the provided software identifier(s) are en
         "identifier": "cpe:/o:alpinelinux:alpine_linux",
         "version": "3.14",
         "eol": true,
-        "artifact": {
+        "entity": {
           "name": "Alpine",
           "version": "3.14",
           "type": "os",
@@ -142,7 +142,7 @@ description: "This endpoint checks if the provided software identifier(s) are en
           "lts": false,
           "support": [
             {
-              "id": "88722d5c-8f0f-4d30-be27-61f59ef79615"
+              "id": "alpine-standard-support"
               "name": "Standard Support",
               "eol": "2023-05-01 00:00:00"
             },
@@ -153,7 +153,7 @@ description: "This endpoint checks if the provided software identifier(s) are en
         "identifier": "pkg:python/python@3.8",
         "version": "3.8",
         "eol": true,
-        "artifact": {
+        "entity": {
           "name": "Python",
           "version": "3.8",
           "type": "pkg",
@@ -161,12 +161,12 @@ description: "This endpoint checks if the provided software identifier(s) are en
           "lts": false,
           "support": [
             {
-              "id": "bec9e158-549c-43ee-8123-4dcf98752298"
+              "id": "python-active-support"
               "name": "Active Support",
               "eol": "2021-05-03 00:00:00"
             },
             {
-              "id": "41a79382-9a93-4bec-a995-56fd7fdff9ff"
+              "id": "python-security-support"
               "name": "Security Support",
               "eol": "2024-10-14 00:00:00"
             },

@@ -1,51 +1,61 @@
 ---
-title: "Get Software Info"
+title: "Get Entity Info"
 api: "POST https://eol.xeol.com/api/v1/query"
-description: "This endpoint gets a software's support information"
+description: "This endpoint gets an entity's support information"
 ---
 
 ### Body
 
 <ParamField body="identifier" type="string[]" required="true">
-  List of software identifiers.
-  
-  Can be either in `cpe`, `purl`, or `custom` format.
-  
-  If `custom`, just use the software's name like this: `Red Hat Enterprise Linux`
+  List of entity identifiers to get support information on
+
+  <Expandable title="identifier">
+    <ResponseField name="type" type="string">
+      Identifier type for this entity.
+      
+      Can be either `cpe` `purl` `custom`
+    </ResponseField>
+
+    <ResponseField name="identifier" type="string">
+      Unique identifier string for the entity.
+      
+      If `custom`, just use the entity's name like this: `Red Hat Enterprise Linux`
+    </ResponseField>
+  </Expandable>
 </ParamField>
 
 ### Response
 
 <ResponseField name="results" type="object[]">
-  List of software with their listed supports
+  List of entity with their listed supports
 
   <Expandable title="result">
     <ResponseField name="name" type="string">
-      Name of the matched artifact
+      Name of the matched entity
     </ResponseField>
 
     <ResponseField name="version" type="string">
-      Release cycle of the matched artifact
+      Release cycle of the matched entity
     </ResponseField>
 
     <ResponseField name="type" type="string">
-      Type of the matched artifact, either `software` or `package` or `os` or `product`
+      Type of the matched entity, either `software` or `package` or `os` or `product`
     </ResponseField>
 
     <ResponseField name="released" type="datetime">
-      Release date of the matched artifact
+      Release date of the matched entity
     </ResponseField>
 
     <ResponseField name="lts" type="boolean">
-      Whether the matched artifact has `Long Term Support`
+      Whether the matched entity has `Long Term Support`
     </ResponseField>
 
     <ResponseField name="support" type="object[]">
-      All availabe support including `Extended Lifecycle Support` for matched artifact
+      All availabe support including `Extended Lifecycle Support` for matched entity
       
       This will always have at least **one** item.
       <Expandable title="support">
-        <ResponseField name="id" type="UUID">
+        <ResponseField name="id" type="id">
           Unique support ID 
         </ResponseField>
 
@@ -86,17 +96,17 @@ description: "This endpoint gets a software's support information"
         "lts": false,
         "support": [
           {
-            "id": "0fcc7bfd-759b-4a9f-a062-87c73149ee86"
+            "id": "rhel-full-support"
             "name": "Full Support",
             "eol": "2016-05-10 00:00:00"
           },
           {
-            "id": "17b47d7b-e36a-41f0-b80e-2fd0cf32c33f"
+            "id": "rhel-maintenance-support"
             "name": "Maintenance Support",
             "eol": "2020-11-30 00:00:00"
           },
           {
-            "id": "ea418ed0-786c-4b7a-9f56-3f042ec5621e"
+            "id": "rhel-extended-life-cycle-support"
             "name": "Extended Life Cycle Support",
             "eol": "2024-06-30 00:00:00"
           }
