@@ -6,24 +6,26 @@ description: "This endpoint gets an entity's support information"
 
 ### Body
 
-<ParamField body="entities" type="string[]" required="true">
+<ParamField body="identifiers" type="string[]" required="true">
   List of entity identifiers to get support information on
 
-  <Expandable title="entity">
+  <Expandable title="identifier">
     <ResponseField name="type" type="string">
-      Identifier type for this entity.
+      Identifier type for this entity
       
       Can be either `cpe` `purl` `custom`
     </ResponseField>
 
     <ResponseField name="identifier" type="string">
-      Unique identifier string for the entity.
+      Identifier string for the entity
       
       If `custom`, just use the entity's name like this: `Red Hat Enterprise Linux`
     </ResponseField>
 
     <ResponseField name="version" type="string">
-      Version for this entity
+      Version for this entity, supports wildcard like this `9.*`
+
+      Only use if type is `custom` as versions are included in `cpe` and `purl`
     </ResponseField>
   </Expandable>
 </ParamField>
@@ -68,7 +70,7 @@ description: "This endpoint gets an entity's support information"
       This will always have at least **one** item.
       <Expandable title="support">
         <ResponseField name="id" type="id">
-          Unique support ID 
+          Support ID 
         </ResponseField>
 
         <ResponseField name="name" type="string">
@@ -113,17 +115,17 @@ description: "This endpoint gets an entity's support information"
         "lts": false,
         "support": [
           {
-            "id": "rhel-full-support"
+            "id": "RHEL_FULL_SUPPORT"
             "name": "Full Support",
             "eol": "2016-05-10 00:00:00"
           },
           {
-            "id": "rhel-maintenance-support"
+            "id": "RHEL_MAINTENANCE_SUPPORT"
             "name": "Maintenance Support",
             "eol": "2020-11-30 00:00:00"
           },
           {
-            "id": "rhel-extended-life-cycle-support"
+            "id": "RHEL_EXTENDED_LIFE_CYCLE_SUPPORT"
             "name": "Extended Life Cycle Support",
             "eol": "2024-06-30 00:00:00"
           }

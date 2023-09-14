@@ -11,23 +11,25 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
 
   <Expandable title="identifier">
     <ResponseField name="type" type="string">
-      Identifier type for this entity.
+      Identifier type for this entity
       
       Can be either `cpe` `purl` `custom`
     </ResponseField>
 
     <ResponseField name="identifier" type="string">
-      Unique identifier string for the entity.
+      Identifier string for the entity
       
       If `custom`, just use the entity's name like this: `Red Hat Enterprise Linux`
     </ResponseField>
 
     <ResponseField name="version" type="string">
-      Version for this entity
+      Version for this entity, supports wildcard like this `9.*`
+
+      Only use if type is `custom` as versions are included in `cpe` and `purl`
     </ResponseField>
 
     <ResponseField name="support" type="id">
-      ID for this entity's support level including `Extended Lifecycle Support`
+      Support ID for the entity
 
       If left out then it will default to `Standard Support`
     </ResponseField>
@@ -88,7 +90,7 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
           This will always have at least **one** item.
           <Expandable title="support">
             <ResponseField name="id" type="id">
-              Unique support ID 
+              Support ID 
             </ResponseField>
 
             <ResponseField name="name" type="string">
@@ -114,14 +116,12 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
       "identifiers": [
         {
           "type": "cpe",
-          "identifier": "cpe:/o:alpinelinux:alpine_linux",
-          "version": "3.14",
+          "identifier": "cpe:/o:alpinelinux:alpine_linux:3.14",
         },
         {
           "type": "purl",
           "identifier": "pkg:python/python@3.8",
-          "version": "3.8",
-          "support": "python-security-support"
+          "support": "PYTHON_SECURITY_SUPPORT"
         }
       ]
   }'
@@ -144,7 +144,7 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
           "lts": false,
           "support": [
             {
-              "id": "alpine-standard-support"
+              "id": "STANDARD_SUPPORT"
               "name": "Standard Support",
               "eol": "2023-05-01 00:00:00"
             },
@@ -163,12 +163,12 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
           "lts": false,
           "support": [
             {
-              "id": "python-active-support"
+              "id": "PYTHON_ACTIVE_SUPPORT"
               "name": "Active Support",
               "eol": "2021-05-03 00:00:00"
             },
             {
-              "id": "python-security-support"
+              "id": "PYTHON_SECURITY_SUPPORT"
               "name": "Security Support",
               "eol": "2024-10-14 00:00:00"
             },
