@@ -32,18 +32,18 @@
   ],
   "navigation": [
     {
-      "group": "🏃🏼 Quickstart",
+      "group": "Quickstart",
       "pages": [
         "home",
         "eol-scanning"
       ]
     },
     {
-      "group": "🔐 SSO",
+      "group": "SSO",
       "pages": ["okta-sso"]
     },
     {
-      "group": "⚖️ Legal",
+      "group": "Legal",
       "pages": [
         "legal/data-privacy", 
         "legal/terms",
