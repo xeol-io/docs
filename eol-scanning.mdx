@@ -5,36 +5,40 @@ description: "Xeol's CI scanning of your builds in under 5 minutes"
 
 ## Xeol Dashboard
 
-**Step 1.** Get Access to the Xeol Dashboard
+### Step 1: Get Access to the Xeol Dashboard
 
-You will recieve an email invite to the Xeol dashboard.
+Sign up [here](https://www.xeol.io/get-started). You should then receive an email invite to the Xeol dashboard.
 
-<br />
 
-**Step 2.** Get API key
+### Step 2: Generate API key
 
-Under the Settings tab, you will be able to generate an API Key.
+Under the Settings page, you will be able to generate an API Key.
 
-<br />
+<Frame caption="Settings Page" type="glass">
+  <img src="/images/settings-page.png" />
+</Frame>
 
-**Step 3.** Add Xeol CLI to your CI
+### Step 3: Add Xeol CLI to your CI
 
-With you API key, you can now add Xeol scanning to your CI system. After you've built an image,
-you can scan it with Xeol.
+With your API key, you can now add [Xeol](https://github.com/xeol-io/xeol) to your CI system. After you build an image,
+you can scan it with Xeol like this:
 
-```bash azure-pipeline.yml
+```bash pipeline.yml
 curl -sSfL https://raw.githubusercontent.com/xeol-io/xeol/main/install.sh | sh -s -- -b /usr/local/bin
 xeol $(repository):$(tag) --api-key=$(XEOL_API_KEY)
 ```
 
-This will send EOL data about your builds back to the Xeol dashboard.
+This will send your image SBOMs back to your Xeol dashboard.
 
-<br />
 
-**Step 4.** Create EOL policies in the Dashboard
+### Step 4: Enforce policies
 
-Now that you have data about your builds, you can create EOL policies in the dashboard.
-You can set a policy to WARN or DENY on a matching EOL Product.
+Now that you have data about your builds, you can create policies in the dashboard that are enforced at build time.
 
-In the case of a DENY policy, if a build contains a product that is EOL, the build
-will exit with a non-zero exit code and fail the pipeline.
+You can set security policies to `warn` or `deny` on any software within your image:
+1. `warn` policy will show a warning sentence in the pipeline but not fail it.
+2. `deny` policy exit the build with a non-zero exit code and fail the pipeline.
+
+<Frame caption="Settings Page" type="glass">
+  <img src="/images/policy-page.png" />
+</Frame>
