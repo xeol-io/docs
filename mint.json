@@ -60,9 +60,9 @@
     }
   ],
   "api": {
-    "baseUrl": "https://mintlify.com/api",
+    "baseUrl": "https://eol.xeol.com/v1/api",
     "auth": {
-      "method": "bearer"
+      "method": "key"
     }
   },
   "footerSocials": {
