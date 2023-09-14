@@ -48,13 +48,13 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
       Entity version for the matched entity
     </ResponseField>
 
-    <ResponseField name="eol" type="boolean">
+    <ResponseField name="eol" type="boolean | null">
       Whether the matched entity is end-of-life.
       
       `null` if an entity could not be matched.
     </ResponseField>
 
-    <ResponseField name="entity" type="object">
+    <ResponseField name="entity" type="object | null">
       Matched entity info. 
       
       `null` if an entity could not be matched.
@@ -69,7 +69,9 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
         </ResponseField>
 
         <ResponseField name="type" type="string">
-          Type of the matched entity, either `software` or `package` or `os` or `product`
+          Type of the matched entity
+          
+          Can be either `software` `package` `os` `product`
         </ResponseField>
 
         <ResponseField name="released" type="datetime">
@@ -135,7 +137,7 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
         "version": "3.14",
         "eol": true,
         "entity": {
-          "name": "Alpine",
+          "name": "Alpine Linux",
           "version": "3.14",
           "type": "os",
           "released": "2021-06-15 00:00:00",
