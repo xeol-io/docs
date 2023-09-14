@@ -81,7 +81,7 @@ description: "This endpoint checks whether an entity matched with an identifier 
         <ResponseField name="type" type="string">
           Type of the matched entity
           
-          Can be either `software` `package` `os` `product`
+          Can be either `service` `device` `software` `package` `os`
         </ResponseField>
 
         <ResponseField name="released" type="datetime">
@@ -160,7 +160,7 @@ description: "This endpoint checks whether an entity matched with an identifier 
       {
         "identifier": "pkg:python/python@3.8",
         "version": "3.8",
-        "eol": true,
+        "eol": false,
         "entity": {
           "name": "Python",
           "version": "3.8",
