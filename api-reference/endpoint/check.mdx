@@ -1,7 +1,7 @@
 ---
 title: "Check Entity EOL"
 api: "POST https://eol.xeol.com/api/v1/check"
-description: "This endpoint checks if the provided entity identifier(s) are end-of-life"
+description: "This endpoint checks whether an entity matched with an identifier is EOL"
 ---
 
 ### Body
@@ -9,29 +9,37 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
 <ParamField body="identifiers" type="object[]" required="true">
   list of entity identifiers to check for end-of-life status
 
+  Only one of `cpe`, `purl`, `custom` identifier can be provided
+
   <Expandable title="identifier">
-    <ResponseField name="type" type="string">
-      Identifier type for this entity
-      
-      Can be either `cpe` `purl` `custom`
+    <ResponseField name="cpe" type="string">
+      Match entity based on `cpe`
     </ResponseField>
 
-    <ResponseField name="identifier" type="string">
-      Identifier string for the entity
-      
-      If `custom`, just use the entity's name like this: `Red Hat Enterprise Linux`
+    <ResponseField name="purl" type="string">
+      Match entity based on `purl`
     </ResponseField>
 
-    <ResponseField name="version" type="string">
-      Version for this entity, supports wildcard like this `9.*`
+    <ResponseField name="custom" type="object">
+      Match entity based on entity name and version
 
-      Only use if type is `custom` as versions are included in `cpe` and `purl`
+      <Expandable title="custom">
+        <ResponseField name="name" type="string">
+          Name for the entity
+        </ResponseField>
+
+        <ResponseField name="version" type="string">
+          Version for this entity, supports wildcard like this `9.*`
+
+          Only use if type is `custom` as versions are included in `cpe` and `purl`
+        </ResponseField>
+      </Expandable>
     </ResponseField>
 
     <ResponseField name="support" type="id">
       Support ID for the entity
 
-      If left out then it will default to `Standard Support`
+      If left out it will default to the standard support policy offered by the vendor
     </ResponseField>
   </Expandable>
 </ParamField>
@@ -115,12 +123,10 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
   --data-raw '{
       "identifiers": [
         {
-          "type": "cpe",
-          "identifier": "cpe:/o:alpinelinux:alpine_linux:3.14",
+          "cpe": "cpe:/o:alpinelinux:alpine_linux:3.14",
         },
         {
-          "type": "purl",
-          "identifier": "pkg:python/python@3.8",
+          "purl": "pkg:python/python@3.8",
           "support": "PYTHON_SECURITY_SUPPORT"
         }
       ]
@@ -133,7 +139,7 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
   {
     "results": [
       {
-        "identifier": "cpe:/o:alpinelinux:alpine_linux",
+        "identifier": "cpe:/o:alpinelinux:alpine_linux:3.14",
         "version": "3.14",
         "eol": true,
         "entity": {
@@ -163,15 +169,10 @@ description: "This endpoint checks if the provided entity identifier(s) are end-
           "lts": false,
           "support": [
             {
-              "id": "PYTHON_ACTIVE_SUPPORT"
-              "name": "Active Support",
-              "eol": "2021-05-03 00:00:00"
-            },
-            {
               "id": "PYTHON_SECURITY_SUPPORT"
               "name": "Security Support",
               "eol": "2024-10-14 00:00:00"
-            },
+            }
           ]
         }
       }

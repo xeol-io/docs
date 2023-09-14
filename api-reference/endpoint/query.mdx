@@ -1,7 +1,7 @@
 ---
-title: "Get Entity Info"
+title: "Get Entity Support Info"
 api: "POST https://eol.xeol.com/api/v1/query"
-description: "This endpoint gets an entity's support information"
+description: "This endpoint gets entity support information"
 ---
 
 ### Body
@@ -9,23 +9,31 @@ description: "This endpoint gets an entity's support information"
 <ParamField body="identifiers" type="string[]" required="true">
   List of entity identifiers to get support information on
 
+  Only one of `cpe`, `purl`, `custom` identifier can be provided
+
   <Expandable title="identifier">
-    <ResponseField name="type" type="string">
-      Identifier type for this entity
-      
-      Can be either `cpe` `purl` `custom`
+    <ResponseField name="cpe" type="string">
+      Match entity based on `cpe`
     </ResponseField>
 
-    <ResponseField name="identifier" type="string">
-      Identifier string for the entity
-      
-      If `custom`, just use the entity's name like this: `Red Hat Enterprise Linux`
+    <ResponseField name="purl" type="string">
+      Match entity based on `purl`
     </ResponseField>
 
-    <ResponseField name="version" type="string">
-      Version for this entity, supports wildcard like this `9.*`
+    <ResponseField name="custom" type="object">
+      Match entity based on entity name and version
 
-      Only use if type is `custom` as versions are included in `cpe` and `purl`
+      <Expandable title="custom">
+        <ResponseField name="name" type="string">
+          Name for the entity
+        </ResponseField>
+
+        <ResponseField name="version" type="string">
+          Version for this entity, supports wildcard like this `9.*`
+
+          Only use if type is `custom` as versions are included in `cpe` and `purl`
+        </ResponseField>
+      </Expandable>
     </ResponseField>
   </Expandable>
 </ParamField>
@@ -93,9 +101,10 @@ description: "This endpoint gets an entity's support information"
   --data-raw '{
     "identifiers": [
       {
-        "type": "custom",
-        "identifier": "Red Hat Enterprise Linux",
-        "version": "6"
+        "custom": {
+          "name": "Red Hat Enterprise Linux",
+          "version": "6"
+        }
       }
     ]
   }'
