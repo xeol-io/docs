@@ -5,7 +5,7 @@
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
-  "favicon": "/favicon.png",
+  "favicon": "/images/favicon.png",
   "colors": {
     "primary": "#722ed1",
     "light": "#722ed1",
@@ -34,13 +34,15 @@
     {
       "group": "Quickstart",
       "pages": [
-        "home",
-        "eol-scanning"
+        "home/home",
+        "home/eol-scanning"
       ]
     },
     {
       "group": "SSO",
-      "pages": ["okta-sso"]
+      "pages": [
+        "home/okta-sso"
+      ]
     },
     {
       "group": "Legal",
