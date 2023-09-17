@@ -50,8 +50,22 @@ description: "This endpoint checks whether an entity matched with an identifier 
   List of matched entities with `eol` status
 
   <Expandable title="result">
-    <ResponseField name="identifier" type="string">
-      Entity identifier string for the matched entity
+    <ResponseField name="identifiers" type="object">
+      All known identifiers of the matched entity
+
+      <Expandable title="identifier">
+        <ResponseField name="cpe" type="string">
+          `Common Platform Enumeration` identifier of the matched entity
+
+          May be `null` as not all entities have `cpe`
+        </ResponseField>
+
+        <ResponseField name="purl" type="string">
+          `Persistent Uniform Resource Locator` identifier of the matched entity
+
+          May be `null` as not all entities have `purl`
+        </ResponseField>
+      </Expandable>
     </ResponseField>
 
     <ResponseField name="version" type="string">
@@ -123,11 +137,14 @@ description: "This endpoint checks whether an entity matched with an identifier 
   --data-raw '{
       "identifiers": [
         {
-          "cpe": "cpe:/o:alpinelinux:alpine_linux:3.14",
+          "cpe": "cpe:/o:alpinelinux:alpine_linux:3.14"
         },
         {
-          "purl": "pkg:python/python@3.8",
-          "support": "PYTHON_SECURITY_SUPPORT"
+          "purl": "pkg:python/python@3.8"
+        },
+        "custom": {
+          "name": "Ubuntu",
+          "version": "20.04"
         }
       ]
   }'
@@ -139,7 +156,10 @@ description: "This endpoint checks whether an entity matched with an identifier 
   {
     "results": [
       {
-        "identifier": "cpe:/o:alpinelinux:alpine_linux:3.14",
+        "identifiers": {
+          "cpe": "cpe:/o:alpinelinux:alpine_linux:3.14",
+          "purl": null
+        },
         "version": "3.14",
         "eol": true,
         "entity": {
@@ -158,20 +178,50 @@ description: "This endpoint checks whether an entity matched with an identifier 
         }
       },
       {
-        "identifier": "pkg:python/python@3.8",
+        "identifiers": {
+          "cpe": "cpe:2.3:a:python:python:3.8:*:*:*:*:*:*:*",
+          "purl": "pkg:deb/debian/python3.8@3.8"
+        },
         "version": "3.8",
         "eol": false,
         "entity": {
           "name": "Python",
           "version": "3.8",
-          "type": "pkg",
+          "type": "package",
           "released": "2019-10-14 00:00:00",
           "lts": false,
           "support": [
             {
-              "id": "PYTHON_SECURITY_SUPPORT"
+              "id": "STANDARD_SUPPORT"
               "name": "Security Support",
               "eol": "2024-10-14 00:00:00"
+            }
+          ]
+        }
+      },
+      {
+        "identifiers": {
+          "cpe": "cpe:/o:canonical:ubuntu_linux:20.04",
+          "purl": null
+        },
+        "version": "20.04",
+        "eol": false,
+        "entity": {
+          "name": "Ubuntu",
+          "version": "20.04",
+          "type": "os",
+          "released": "2020-04-23 00:00:00",
+          "lts": true,
+          "support": [
+            {
+              "id": "STANDARD_SUPPORT"
+              "name": "Security Support",
+              "eol": "2025-04-02 00:00:00"
+            },
+            {
+              "id": "EXTENDED_SECURITY_MAINTENANCE"
+              "name": "Extended Security MAINTENANCE",
+              "eol": "2030-04-02 00:00:00"
             }
           ]
         }

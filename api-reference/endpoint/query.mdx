@@ -44,10 +44,22 @@ description: "This endpoint gets entity support information"
   List of entity with their listed supports
 
   <Expandable title="result">
-    <ResponseField name="identifier" type="string">
-      Identifier of the matched entity
+    <ResponseField name="identifiers" type="object">
+      All known identifiers of the matched entity
 
-      Can be either `cpe` `purl`
+      <Expandable title="identifier">
+        <ResponseField name="cpe" type="string">
+          `Common Platform Enumeration` identifier of the matched entity
+
+          May be `null` as not all entities have `cpe`
+        </ResponseField>
+
+        <ResponseField name="purl" type="string">
+          `Persistent Uniform Resource Locator` identifier of the matched entity
+
+          May be `null` as not all entities have `purl`
+        </ResponseField>
+      </Expandable>
     </ResponseField>
 
     <ResponseField name="name" type="string">
@@ -116,7 +128,10 @@ description: "This endpoint gets entity support information"
   {
     "results": [
       {
-        "identifier": "cpe:/o:redhat:enterprise_linux:6",
+        "identifiers": {
+          "cpe": "cpe:/o:redhat:enterprise_linux:6",
+          "purl": null
+        }
         "name": "Red Hat Enterprise Linux",
         "version": "6",
         "type": "os",
@@ -124,7 +139,7 @@ description: "This endpoint gets entity support information"
         "lts": false,
         "support": [
           {
-            "id": "RHEL_FULL_SUPPORT"
+            "id": "STANDARD_SUPPORT"
             "name": "Full Support",
             "eol": "2016-05-10 00:00:00"
           },
