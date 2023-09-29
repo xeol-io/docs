@@ -62,7 +62,7 @@
     }
   ],
   "api": {
-    "baseUrl": "https://eol.xeol.com/v1/api",
+    "baseUrl": "https://edb.xeol.com/",
     "auth": {
       "method": "key"
     }

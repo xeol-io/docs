@@ -1,6 +1,6 @@
 ---
 title: "Check Entity EOL"
-api: "POST https://eol.xeol.com/api/v1/check"
+api: "POST https://edb.xeol.com/v1/check"
 description: "This endpoint checks whether an entity matched with an identifier is EOL"
 ---
 
@@ -117,7 +117,7 @@ description: "This endpoint checks whether an entity matched with an identifier 
 
 <RequestExample>
   ```bash curl
-  curl --location --request POST 'https://eol.xeol.com/api/v1/check' \
+  curl --location --request POST 'https://edb.xeol.com/v1/check' \
   --header 'Content-Type: application/json' \
   --header 'Authorization: <XEOL_API_KEY>' \
   --data-raw '{

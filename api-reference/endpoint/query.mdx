@@ -1,6 +1,6 @@
 ---
 title: "Get Entity Support Info"
-api: "POST https://eol.xeol.com/api/v1/query"
+api: "POST https://edb.xeol.com/v1/lifecycle"
 description: "This endpoint gets entity support information"
 ---
 
@@ -95,7 +95,7 @@ description: "This endpoint gets entity support information"
 
 <RequestExample>
   ```bash curl
-  curl --location --request POST 'https://eol.xeol.com/api/v1/query' \
+  curl --location --request POST 'https://edb.xeol.com/v1/lifecycle' \
   --header 'Content-Type: application/json' \
   --header 'Authorization: <XEOL_API_KEY>' \
   --data-raw '{
