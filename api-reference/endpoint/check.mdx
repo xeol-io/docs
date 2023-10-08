@@ -1,135 +1,184 @@
 ---
 title: "Check Entity EOL"
-api: "POST https://edb.xeol.com/v1/check"
+api: "POST http://localhost:8080/v1/check"
 description: "This endpoint checks whether an entity matched with an identifier is EOL"
 ---
 
 ### Body
 
-<ParamField body="identifiers" type="object[]" required="true">
-  list of entity identifiers to check for end-of-life status
+<ParamField body="identifier" type="object" required>
+  An entity identifier to check for EOL status. Only one of `cpe`, `purl`, `custom` identifier can be provided
+  per object.
+  <Expandable title="properties">
+    <ParamField body="cpe" type="string">
+      CPE identifier string
+    </ParamField>
 
-  Only one of `cpe`, `purl`, `custom` identifier can be provided
+    <ParamField body="purl" type="string">
+      PURL identifier string
+    </ParamField>
 
-  <Expandable title="identifier">
-    <ResponseField name="cpe" type="string">
-      Match entity based on `cpe`
-    </ResponseField>
-
-    <ResponseField name="purl" type="string">
-      Match entity based on `purl`
-    </ResponseField>
-
-    <ResponseField name="custom" type="object">
-      Match entity based on entity name and version
-
+    <ParamField body="custom" type="object">
+      Custom identifier object
       <Expandable title="custom">
-        <ResponseField name="name" type="string">
+        <ParamField body="name" type="string">
           Name for the entity
-        </ResponseField>
-
-        <ResponseField name="version" type="string">
-          Version for this entity, supports wildcard like this `9.*`
-
-          Only use if type is `custom` as versions are included in `cpe` and `purl`
-        </ResponseField>
+        </ParamField>
+        <ParamField body="version" type="string">
+          Version for the entity
+        </ParamField>
       </Expandable>
-    </ResponseField>
-
-    <ResponseField name="support" type="id">
-      Support ID for the entity
-
-      If left out it will default to the standard support policy offered by the vendor
-    </ResponseField>
+    </ParamField>
   </Expandable>
+</ParamField>
+
+<ParamField body="support" type="string">
+  Support ID for the entity. If not provided, it will default to the standard support policy offered by the vendor which is the support policy in which
+  security support is no longer provided.
 </ParamField>
 
 ### Response
 
-<ResponseField name="results" type="object[]">
-  List of matched entities with `eol` status
+<ResponseField name="eol" type="boolean">
+  Whether the matched entity is end-of-life.
+</ResponseField>
 
-  <Expandable title="result">
-    <ResponseField name="identifier" type="string">
-      Entity identifier string for the matched entity
+<ResponseField name="eol_date" type="string">
+  The end-of-life date for the matched entity.
+</ResponseField>
+
+<ResponseField name="match" type="object">
+  Information about the match.
+  <Expandable title="match">
+    <ResponseField name="found" type="bool">
+      Whether a match was found.
     </ResponseField>
-
-    <ResponseField name="version" type="string">
-      Entity version for the matched entity
+    <ResponseField name="message" type="string">
+      Information about why the match was not found.
     </ResponseField>
+  </Expandable>
+</ResponseField>
 
-    <ResponseField name="eol" type="boolean | null">
-      Whether the matched entity is end-of-life.
-      
-      `null` if an entity could not be matched.
-    </ResponseField>
+<ResponseField name="found_support" type="boolean">
+  Whether the entity support was found.
+</ResponseField>
 
-    <ResponseField name="entity" type="object | null">
-      Matched entity info. 
-      
-      `null` if an entity could not be matched.
 
-      <Expandable title="entity">
-        <ResponseField name="name" type="string">
-          Name of the matched entity
-        </ResponseField>
-
-        <ResponseField name="version" type="string">
-          Release cycle of the matched entity
-        </ResponseField>
-
-        <ResponseField name="type" type="string">
-          Type of the matched entity
-          
-          Can be either `service` `device` `software` `package` `os`
-        </ResponseField>
-
-        <ResponseField name="released" type="datetime">
-          Release date of the matched entity
-        </ResponseField>
-
-        <ResponseField name="lts" type="boolean">
-          Whether the matched entity has `Long Term Support`
-        </ResponseField>
-
-        <ResponseField name="support" type="object[]">
-          All availabe support including `Extended Lifecycle Support` for matched entity
-          
-          This will always have at least **one** item.
-          <Expandable title="support">
-            <ResponseField name="id" type="id">
-              Support ID 
-            </ResponseField>
-
-            <ResponseField name="name" type="string">
-              Official support name
-            </ResponseField>
-
-            <ResponseField name="eol" type="datetime">
-              End-of-life date
-            </ResponseField>
-          </Expandable>
+<ResponseField name="request" type="object">
+  The request that triggered this response.
+  <Expandable title="request">
+    <ResponseField name="identifier" type="object">
+      Entity identifier object for the request.
+      <Expandable title="identifier">
+        <ResponseField name="cpe" type="string">
+          Common Platform Enumeration identifier
         </ResponseField>
       </Expandable>
     </ResponseField>
   </Expandable>
 </ResponseField>
 
+<ResponseField name="evidence" type="object">
+  Evidence supporting the eol status.
+  <Expandable title="evidence">
+    <ResponseField name="schema_version" type="string">
+      Schema version
+    </ResponseField>
+    <ResponseField name="id" type="string">
+      Unique identifier
+    </ResponseField>
+    <ResponseField name="modified" type="datetime">
+      Last modified date
+    </ResponseField>
+    <ResponseField name="published" type="datetime">
+      Published date
+    </ResponseField>
+    <ResponseField name="entity" type="object">
+      Matched entity info.
+      <Expandable title="entity">
+        <ResponseField name="lts" type="boolean">
+          Whether the matched entity has Long Term Support
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Name of the matched entity
+        </ResponseField>
+        <ResponseField name="released" type="datetime">
+          Release date of the matched entity
+        </ResponseField>
+        <ResponseField name="type" type="string">
+          Type of the matched entity. Can be either service, device, software, package, os.
+        </ResponseField>
+        <ResponseField name="vendor" type="string">
+          Vendor of the matched entity
+        </ResponseField>
+        <ResponseField name="version" type="string">
+          Version of the matched entity
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="support" type="object[]">
+      All available support including Extended Lifecycle Support for matched entity.
+      <Expandable title="support">
+        <ResponseField name="eol" type="datetime">
+          End-of-life date
+        </ResponseField>
+        <ResponseField name="id" type="string">
+          Support ID
+        </ResponseField>
+        <ResponseField name="level" type="integer">
+          Support level
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="references" type="object[]">
+      References related to the entity.
+      <Expandable title="references">
+        <ResponseField name="type" type="string">
+          Type of reference
+        </ResponseField>
+        <ResponseField name="url" type="string">
+          URL of the reference
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="identification" type="object">
+      Identification methods used.
+      <Expandable title="identification">
+        <ResponseField name="cpes" type="string[]">
+          List of Common Platform Enumeration identifiers
+        </ResponseField>
+        <ResponseField name="custom" type="object">
+          Custom identification
+          <Expandable title="custom">
+            <ResponseField name="name" type="string">
+              Custom name
+            </ResponseField>
+            <ResponseField name="vendor" type="string">
+              Custom vendor
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+        <ResponseField name="purls" type="string[]">
+          List of Package URL identifiers
+        </ResponseField>
+        <ResponseField name="versions" type="string[]">
+          List of versions
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+
 <RequestExample>
   ```bash curl
-  curl --location --request POST 'https://edb.xeol.com/v1/check' \
+  curl --location --request POST 'http://localhost:8080/v1/check' \
   --header 'Content-Type: application/json' \
-  --header 'Authorization: <XEOL_API_KEY>' \
   --data-raw '{
-      "identifiers": [
-        {
-          "cpe": "cpe:/o:alpinelinux:alpine_linux:3.14",
-        },
-        {
-          "purl": "pkg:python/python@3.8",
-          "support": "PYTHON_SECURITY_SUPPORT"
-        }
-      ]
+    "identifier": {
+      "purl": "pkg:deb/debian/mongodb-org-server@3.0",
+    },
+    "support": "STANDARD_SUPPORT"
   }'
   ```
 </RequestExample>
@@ -137,46 +186,69 @@ description: "This endpoint checks whether an entity matched with an identifier 
 <ResponseExample>
   ```json 200
   {
-    "results": [
-      {
-        "identifier": "cpe:/o:alpinelinux:alpine_linux:3.14",
-        "version": "3.14",
-        "eol": true,
-        "entity": {
-          "name": "Alpine Linux",
-          "version": "3.14",
-          "type": "os",
-          "released": "2021-06-15 00:00:00",
-          "lts": false,
-          "support": [
-            {
-              "id": "STANDARD_SUPPORT"
-              "name": "Standard Support",
-              "eol": "2023-05-01 00:00:00"
-            },
-          ]
-        }
+    "match": {
+      "found": true,
+      "message": "Matched PURL and support level"
+    },
+    "eol": true,
+    "eol_date": "2023-05-01",
+    "evidence": {
+      "schema_version": "1.0.0",
+      "id": "LC-jj77-qw69-3q9h",
+      "modified": "2021-07-01T00:00:00.000Z",
+      "published": "2021-07-01T00:00:00.000Z",
+      "entity": {
+        "lts": false,
+        "name": "Alpine Linux",
+        "released": "2021-07-01T00:00:00.000Z",
+        "type": "os",
+        "vendor": "string",
+        "version": "3.14"
       },
-      {
-        "identifier": "pkg:python/python@3.8",
-        "version": "3.8",
-        "eol": false,
-        "entity": {
-          "name": "Python",
-          "version": "3.8",
-          "type": "pkg",
-          "released": "2019-10-14 00:00:00",
-          "lts": false,
-          "support": [
-            {
-              "id": "PYTHON_SECURITY_SUPPORT"
-              "name": "Security Support",
-              "eol": "2024-10-14 00:00:00"
-            }
-          ]
+      "identification": {
+        "cpes": [
+          "cpe:2.3:o:alpinelinux:alpine_linux",
+          "cpe:/o:alpinelinux:alpine_linux"
+        ],
+        "custom": {
+          "name": "string",
+          "vendor": "string"
+        },
+        "purls": [
+          "string"
+        ],
+        "versions": [
+          "3.14.x"
+        ]
+      },
+      "support": [
+        {
+          "eol": "2023-05-01",
+          "id": "STANDARD_SUPPORT",
+          "level": 0
         }
+      ],
+      "references": [
+        {
+          "type": "CHANGELOG",
+          "url": "https://alpinelinux.org/releases/"
+        }
+      ]
+    },
+    "request": {
+      "identifier": {
+        "cpe": "cpe:/o:alpinelinux:alpine_linux:3.14"
       }
-    ]
+    }
+  }
+  ```
+  ```json 400
+  {
+    "error": {
+      "code": 400,
+      "message": "Invalid request payload"
+    }
   }
   ```
 </ResponseExample>
+

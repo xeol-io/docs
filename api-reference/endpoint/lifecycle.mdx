@@ -1,0 +1,201 @@
+---
+title: "Support Information"
+api: "POST http://localhost:8080/v1/lifecycle"
+description: "Find support information for entities"
+---
+
+### Body
+
+<ParamField body="entity" type="object" required>
+  An entity to find support information about
+  <Expandable title="properties">
+    <ParamField body="lts" type="string">
+      Whether the entity has `Long Term Support`
+    </ParamField>
+
+    <ParamField body="name" type="string">
+      The name of the entity
+    </ParamField>
+
+    <ParamField body="type" type="string">
+      The type of the entity
+    </ParamField>
+
+    <ParamField body="vendor" type="string">
+      The vendor of the entity
+    </ParamField>
+
+    <ParamField body="version" type="string">
+      The version of the entity
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### Response
+
+<ResponseField name="results" type="object[]">
+  List of entity with their listed supports
+
+  <Expandable title="lifecycle">
+    <ResponseField name="schema_version" type="string">
+      Schema version
+    </ResponseField>
+    <ResponseField name="id" type="string">
+      Unique identifier
+    </ResponseField>
+    <ResponseField name="modified" type="datetime">
+      Last modified date
+    </ResponseField>
+    <ResponseField name="published" type="datetime">
+      Published date
+    </ResponseField>
+    <ResponseField name="entity" type="object">
+      Matched entity info.
+      <Expandable title="entity">
+        <ResponseField name="lts" type="boolean">
+          Whether the matched entity has Long Term Support
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Name of the matched entity
+        </ResponseField>
+        <ResponseField name="released" type="datetime">
+          Release date of the matched entity
+        </ResponseField>
+        <ResponseField name="type" type="string">
+          Type of the matched entity. Can be either service, device, software, package, os.
+        </ResponseField>
+        <ResponseField name="vendor" type="string">
+          Vendor of the matched entity
+        </ResponseField>
+        <ResponseField name="version" type="string">
+          Version of the matched entity
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="support" type="object[]">
+      All available support including Extended Lifecycle Support for matched entity.
+      <Expandable title="support">
+        <ResponseField name="eol" type="datetime">
+          End-of-life date
+        </ResponseField>
+        <ResponseField name="id" type="string">
+          Support ID
+        </ResponseField>
+        <ResponseField name="level" type="integer">
+          Support level
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="references" type="object[]">
+      References related to the entity.
+      <Expandable title="references">
+        <ResponseField name="type" type="string">
+          Type of reference
+        </ResponseField>
+        <ResponseField name="url" type="string">
+          URL of the reference
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="identification" type="object">
+      Identification methods used.
+      <Expandable title="identification">
+        <ResponseField name="cpes" type="string[]">
+          List of Common Platform Enumeration identifiers
+        </ResponseField>
+        <ResponseField name="custom" type="object">
+          Custom identification
+          <Expandable title="custom">
+            <ResponseField name="name" type="string">
+              Custom name
+            </ResponseField>
+            <ResponseField name="vendor" type="string">
+              Custom vendor
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+        <ResponseField name="purls" type="string[]">
+          List of Package URL identifiers
+        </ResponseField>
+        <ResponseField name="versions" type="string[]">
+          List of versions
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+  ```bash curl
+  curl --location --request POST 'http://localhost:8080/v1/lifecycle' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+    "entity": {
+      "lts": false,
+      "name": "Alpine Linux",
+      "type": "os",
+      "vendor": "string",
+      "version": "3.14"
+    }
+  }'
+  ```
+</RequestExample>
+<ResponseExample>
+  ```json 200
+  {
+    "results": [
+      {
+        "schema_version": "1.0.0",
+        "id": "LC-jj77-qw69-3q9h",
+        "modified": "2021-07-01T00:00:00.000Z",
+        "published": "2021-07-01T00:00:00.000Z",
+        "entity": {
+          "lts": false,
+          "name": "Alpine Linux",
+          "released": "2021-07-01T00:00:00.000Z",
+          "type": "os",
+          "vendor": "string",
+          "version": "3.14"
+        },
+        "identification": {
+          "cpes": [
+            "cpe:2.3:o:alpinelinux:alpine_linux",
+            "cpe:/o:alpinelinux:alpine_linux"
+          ],
+          "custom": {
+            "name": "string",
+            "vendor": "string"
+          },
+          "purls": [
+            "string"
+          ],
+          "versions": [
+            "3.14.x"
+          ]
+        },
+        "support": [
+          {
+            "eol": "2023-05-01",
+            "id": "STANDARD_SUPPORT",
+            "level": 0
+          }
+        ],
+        "references": [
+          {
+            "type": "CHANGELOG",
+            "url": "https://alpinelinux.org/releases/"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  ```json 400
+  {
+    "error": {
+      "code": 400,
+      "message": "Invalid request payload"
+    }
+  }
+  ```
+</ResponseExample>
