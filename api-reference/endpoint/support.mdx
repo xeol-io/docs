@@ -1,6 +1,6 @@
 ---
-title: "Support Information"
-api: "POST https://edb.xeol.io/v1/lifecycle"
+title: "Entity Support Levels"
+api: "POST https://edb.xeol.io/v1/support"
 description: "Find support information for entities"
 ---
 
@@ -9,7 +9,7 @@ description: "Find support information for entities"
 <ParamField body="entity" type="object" required>
   An entity to find support information about
   <Expandable title="properties">
-    <ParamField body="lts" type="string">
+    <ParamField body="lts" type="boolean">
       Whether the entity has `Long Term Support`
     </ParamField>
 
@@ -127,75 +127,44 @@ description: "Find support information for entities"
 
 <RequestExample>
   ```bash curl
-  curl --location --request POST 'https://edb.xeol.io/v1/lifecycle' \
+  curl --location --request POST 'https://edb.xeol.io/v1/support' \
   --header 'Content-Type: application/json' \
   --data-raw '{
     "entity": {
       "lts": false,
-      "name": "Alpine Linux",
-      "type": "os",
-      "vendor": "string",
-      "version": "3.14"
+      "name": "MongoDB Server",
+      "type": "software",
+      "vendor": "MongoDB",
+      "version": "3.0"
     }
   }'
   ```
 </RequestExample>
 <ResponseExample>
   ```json 200
-  {
-    "results": [
-      {
-        "schema_version": "1.0.0",
-        "id": "LC-jj77-qw69-3q9h",
-        "modified": "2021-07-01T00:00:00.000Z",
-        "published": "2021-07-01T00:00:00.000Z",
-        "entity": {
-          "lts": false,
-          "name": "Alpine Linux",
-          "released": "2021-07-01T00:00:00.000Z",
-          "type": "os",
-          "vendor": "string",
-          "version": "3.14"
-        },
-        "identification": {
-          "cpes": [
-            "cpe:2.3:o:alpinelinux:alpine_linux",
-            "cpe:/o:alpinelinux:alpine_linux"
-          ],
-          "custom": {
-            "name": "string",
-            "vendor": "string"
-          },
-          "purls": [
-            "string"
-          ],
-          "versions": [
-            "3.14.x"
-          ]
-        },
-        "support": [
-          {
-            "eol": "2023-05-01",
-            "id": "STANDARD_SUPPORT",
-            "level": 0
-          }
-        ],
-        "references": [
-          {
-            "type": "CHANGELOG",
-            "url": "https://alpinelinux.org/releases/"
-          }
-        ]
-      }
-    ]
-  }
+  [
+    {
+      "entity": {
+        "lts": false,
+        "name": "MongoDB Server",
+        "released": "2015-03-03",
+        "type": "software",
+        "vendor": "MongoDB",
+        "version": "3.0"
+      },
+      "support": [
+        {
+          "eol": "2018-02-01",
+          "id": "STANDARD_SUPPORT",
+          "level": 0
+        }
+      ]
+    }
+  ]
   ```
   ```json 400
   {
-    "error": {
-      "code": 400,
-      "message": "Invalid request payload"
-    }
+    "message": "Invalid request payload"
   }
   ```
 </ResponseExample>
