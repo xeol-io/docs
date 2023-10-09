@@ -25,9 +25,9 @@
   },
   "anchors": [
     {
-        "name": "API References",
-        "icon": "code",
-        "url": "api-reference"
+      "name": "API References",
+      "icon": "code",
+      "url": "api-reference"
     }
   ],
   "navigation": [
@@ -47,22 +47,23 @@
     {
       "group": "Legal",
       "pages": [
-        "legal/data-privacy", 
+        "legal/data-privacy",
         "legal/terms",
         "legal/privacy"
       ]
     },
     {
-      "group": "EOL API",
+      "group": "lifecycle",
       "pages": [
         "api-reference/get-started",
-        "api-reference/endpoint/query",
-        "api-reference/endpoint/check"
+        "api-reference/endpoint/check",
+        "api-reference/endpoint/support",
+        "api-reference/endpoint/entities"
       ]
     }
   ],
   "api": {
-    "baseUrl": "https://eol.xeol.com/v1/api",
+    "baseUrl": "https://edb.xeol.io/",
     "auth": {
       "method": "key"
     }
@@ -70,10 +71,8 @@
   "footerSocials": {
     "github": "https://github.com/xeol-io",
     "linkedin": "https://www.linkedin.com/company/xeol",
-    "twitter":  "https://twitter.com/xeol_io",
+    "twitter": "https://twitter.com/xeol_io",
     "website": "https://www.xeol.io/"
   },
   "backgroundImage": "/background.png"
 }
-
-

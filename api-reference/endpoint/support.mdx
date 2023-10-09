@@ -1,86 +1,42 @@
 ---
-title: "Check Entity EOL"
-api: "POST https://edb.xeol.io/v1/check"
-description: "This endpoint checks whether an entity matched with an identifier is EOL"
+title: "Entity Support Levels"
+api: "POST https://edb.xeol.io/v1/support"
+description: "Find support information for entities"
 ---
 
 ### Body
 
-<ParamField body="identifier" type="object" required>
-  An entity identifier to check for EOL status. Only one of `cpe`, `purl`, `custom` identifier can be provided
-  per object.
+<ParamField body="entity" type="object" required>
+  An entity to find support information about
   <Expandable title="properties">
-    <ParamField body="cpe" type="string">
-      CPE identifier string
+    <ParamField body="lts" type="boolean">
+      Whether the entity has `Long Term Support`
     </ParamField>
 
-    <ParamField body="purl" type="string">
-      PURL identifier string
+    <ParamField body="name" type="string">
+      The name of the entity
     </ParamField>
 
-    <ParamField body="custom" type="object">
-      Custom identifier object
-      <Expandable title="custom">
-        <ParamField body="name" type="string">
-          Name for the entity
-        </ParamField>
-        <ParamField body="version" type="string">
-          Version for the entity
-        </ParamField>
-      </Expandable>
+    <ParamField body="type" type="string">
+      The type of the entity
+    </ParamField>
+
+    <ParamField body="vendor" type="string">
+      The vendor of the entity
+    </ParamField>
+
+    <ParamField body="version" type="string">
+      The version of the entity
     </ParamField>
   </Expandable>
-</ParamField>
-
-<ParamField body="support" type="string">
-  Support ID for the entity. If not provided, it will default to the standard support policy offered by the vendor which is the support policy in which
-  security support is no longer provided.
 </ParamField>
 
 ### Response
 
-<ResponseField name="eol" type="boolean">
-  Whether the matched entity is end-of-life.
-</ResponseField>
+<ResponseField name="results" type="object[]">
+  List of entity with their listed supports
 
-<ResponseField name="eol_date" type="string">
-  The end-of-life date for the matched entity.
-</ResponseField>
-
-<ResponseField name="match" type="object">
-  Information about the match.
-  <Expandable title="match">
-    <ResponseField name="found" type="bool">
-      Whether a match was found.
-    </ResponseField>
-    <ResponseField name="message" type="string">
-      Information about why the match was not found.
-    </ResponseField>
-  </Expandable>
-</ResponseField>
-
-<ResponseField name="found_support" type="boolean">
-  Whether the entity support was found.
-</ResponseField>
-
-
-<ResponseField name="request" type="object">
-  The request that triggered this response.
-  <Expandable title="request">
-    <ResponseField name="identifier" type="object">
-      Entity identifier object for the request.
-      <Expandable title="identifier">
-        <ResponseField name="cpe" type="string">
-          Common Platform Enumeration identifier
-        </ResponseField>
-      </Expandable>
-    </ResponseField>
-  </Expandable>
-</ResponseField>
-
-<ResponseField name="evidence" type="object">
-  Evidence supporting the eol status.
-  <Expandable title="evidence">
+  <Expandable title="lifecycle">
     <ResponseField name="schema_version" type="string">
       Schema version
     </ResponseField>
@@ -169,78 +125,42 @@ description: "This endpoint checks whether an entity matched with an identifier 
   </Expandable>
 </ResponseField>
 
-
 <RequestExample>
   ```bash curl
-  curl --location --request POST 'https://edb.xeol.io/v1/check' \
+  curl --location --request POST 'https://edb.xeol.io/v1/support' \
   --header 'Content-Type: application/json' \
   --data-raw '{
-    "identifier": {
-      "purl": "pkg:deb/debian/mongodb-org-server@3.0",
-    },
-    "support": "STANDARD_SUPPORT"
+    "entity": {
+      "lts": false,
+      "name": "MongoDB Server",
+      "type": "software",
+      "vendor": "MongoDB",
+      "version": "3.0"
+    }
   }'
   ```
 </RequestExample>
-
 <ResponseExample>
   ```json 200
-  {
-    "match": {
-      "found": true,
-      "message": "Matched PURL and support level"
-    },
-    "eol": true,
-    "eol_date": "2023-05-01",
-    "evidence": {
-      "schema_version": "1.0.0",
-      "id": "LC-jj77-qw69-3q9h",
-      "modified": "2021-07-01T00:00:00.000Z",
-      "published": "2021-07-01T00:00:00.000Z",
+  [
+    {
       "entity": {
         "lts": false,
-        "name": "Alpine Linux",
-        "released": "2021-07-01T00:00:00.000Z",
-        "type": "os",
-        "vendor": "string",
-        "version": "3.14"
-      },
-      "identification": {
-        "cpes": [
-          "cpe:2.3:o:alpinelinux:alpine_linux",
-          "cpe:/o:alpinelinux:alpine_linux"
-        ],
-        "custom": {
-          "name": "string",
-          "vendor": "string"
-        },
-        "purls": [
-          "string"
-        ],
-        "versions": [
-          "3.14.x"
-        ]
+        "name": "MongoDB Server",
+        "released": "2015-03-03",
+        "type": "software",
+        "vendor": "MongoDB",
+        "version": "3.0"
       },
       "support": [
         {
-          "eol": "2023-05-01",
+          "eol": "2018-02-01",
           "id": "STANDARD_SUPPORT",
           "level": 0
         }
-      ],
-      "references": [
-        {
-          "type": "CHANGELOG",
-          "url": "https://alpinelinux.org/releases/"
-        }
       ]
-    },
-    "request": {
-      "identifier": {
-        "cpe": "cpe:/o:alpinelinux:alpine_linux:3.14"
-      }
     }
-  }
+  ]
   ```
   ```json 400
   {
@@ -248,4 +168,3 @@ description: "This endpoint checks whether an entity matched with an identifier 
   }
   ```
 </ResponseExample>
-
