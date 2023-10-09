@@ -1,13 +1,13 @@
 ---
 title: "Support Levels"
 api: "POST https://edb.xeol.io/v1/support"
-description: "Find support information for entities"
+description: "Determine the support levels for an entity"
 ---
 
 ### Body
 
 <ParamField body="entity" type="object" required>
-  An entity to find support information about
+  Qualifiers of the entity to find support information for.
   <Expandable title="properties">
     <ParamField body="lts" type="boolean">
       Whether the entity has `Long Term Support`
@@ -34,21 +34,9 @@ description: "Find support information for entities"
 ### Response
 
 <ResponseField name="results" type="object[]">
-  List of entity with their listed supports
+  A list of entities with support information
 
   <Expandable title="lifecycle">
-    <ResponseField name="schema_version" type="string">
-      Schema version
-    </ResponseField>
-    <ResponseField name="id" type="string">
-      Unique identifier
-    </ResponseField>
-    <ResponseField name="modified" type="datetime">
-      Last modified date
-    </ResponseField>
-    <ResponseField name="published" type="datetime">
-      Published date
-    </ResponseField>
     <ResponseField name="entity" type="object">
       Matched entity info.
       <Expandable title="entity">
@@ -59,7 +47,7 @@ description: "Find support information for entities"
           Name of the matched entity
         </ResponseField>
         <ResponseField name="released" type="datetime">
-          Release date of the matched entity
+          When the entity was released
         </ResponseField>
         <ResponseField name="type" type="string">
           Type of the matched entity. Can be either service, device, software, package, os.
@@ -83,42 +71,6 @@ description: "Find support information for entities"
         </ResponseField>
         <ResponseField name="level" type="integer">
           Support level
-        </ResponseField>
-      </Expandable>
-    </ResponseField>
-    <ResponseField name="references" type="object[]">
-      References related to the entity.
-      <Expandable title="references">
-        <ResponseField name="type" type="string">
-          Type of reference
-        </ResponseField>
-        <ResponseField name="url" type="string">
-          URL of the reference
-        </ResponseField>
-      </Expandable>
-    </ResponseField>
-    <ResponseField name="identification" type="object">
-      Identification methods used.
-      <Expandable title="identification">
-        <ResponseField name="cpes" type="string[]">
-          List of Common Platform Enumeration identifiers
-        </ResponseField>
-        <ResponseField name="custom" type="object">
-          Custom identification
-          <Expandable title="custom">
-            <ResponseField name="name" type="string">
-              Custom name
-            </ResponseField>
-            <ResponseField name="vendor" type="string">
-              Custom vendor
-            </ResponseField>
-          </Expandable>
-        </ResponseField>
-        <ResponseField name="purls" type="string[]">
-          List of Package URL identifiers
-        </ResponseField>
-        <ResponseField name="versions" type="string[]">
-          List of versions
         </ResponseField>
       </Expandable>
     </ResponseField>

@@ -1,31 +1,30 @@
 ---
 title: "Check EOL"
 api: "POST https://edb.xeol.io/v1/check"
-description: "This endpoint checks whether an entity matched with an identifier is EOL"
+description: "This endpoint verifies if an entity, identified by a specific identifier, has reached End-of-Life (EOL) status."
 ---
 
 ### Body
 
 <ParamField body="identifier" type="object" required>
-  An entity identifier to check for EOL status. Only one of `cpe`, `purl`, `custom` identifier can be provided
-  per object.
+  An identifier to determine an entity's EOL status. Only one of the following can be provided: `cpe`, `purl`, `custom`.
   <Expandable title="properties">
     <ParamField body="cpe" type="string">
-      CPE identifier string
+      A Common Platform Enumeration (CPE) identifier. Can be either a CPE 2.3 or CPE 2.2 identifier.
     </ParamField>
 
     <ParamField body="purl" type="string">
-      PURL identifier string
+      Package URL (PURL) identifier.
     </ParamField>
 
     <ParamField body="custom" type="object">
       Custom identifier object
       <Expandable title="custom">
         <ParamField body="name" type="string">
-          Name for the entity
+          Entity name
         </ParamField>
         <ParamField body="version" type="string">
-          Version for the entity
+          Entity version
         </ParamField>
       </Expandable>
     </ParamField>
@@ -33,8 +32,12 @@ description: "This endpoint checks whether an entity matched with an identifier 
 </ParamField>
 
 <ParamField body="support" type="string">
-  Support ID for the entity. If not provided, it will default to the standard support policy offered by the vendor which is the support policy in which
-  security support is no longer provided.
+  The field takes a support ID to match against. If not provided, it will default to `STANDARD_SUPPORT` which is the base level
+  of support for any entity.
+
+  `STANDARD_SUPPORT` is defined as the base support level in which security updates are provided for the entity.
+
+  To find all support levels for an entity, use the [POST /v1/support](/api-reference/endpoint/support) endpoint.
 </ParamField>
 
 ### Response
@@ -106,7 +109,7 @@ description: "This endpoint checks whether an entity matched with an identifier 
           Release date of the matched entity
         </ResponseField>
         <ResponseField name="type" type="string">
-          Type of the matched entity. Can be either service, device, software, package, os.
+          Type of the matched entity. Will be one of: `service`, `device`, `software`, `package`, `os`.
         </ResponseField>
         <ResponseField name="vendor" type="string">
           Vendor of the matched entity
@@ -117,7 +120,7 @@ description: "This endpoint checks whether an entity matched with an identifier 
       </Expandable>
     </ResponseField>
     <ResponseField name="support" type="object[]">
-      All available support including Extended Lifecycle Support for matched entity.
+      The available support levels for the matched entity.
       <Expandable title="support">
         <ResponseField name="eol" type="datetime">
           End-of-life date
@@ -131,10 +134,10 @@ description: "This endpoint checks whether an entity matched with an identifier 
       </Expandable>
     </ResponseField>
     <ResponseField name="references" type="object[]">
-      References related to the entity.
+      References are used to provide additional information about the matched entity.
       <Expandable title="references">
         <ResponseField name="type" type="string">
-          Type of reference
+          Type of reference. Will be one of: `CHANGELOG`, `ARTICLE`, `WEB`, `SOURCE`, `PACKAGE`
         </ResponseField>
         <ResponseField name="url" type="string">
           URL of the reference
