@@ -53,7 +53,7 @@
       ]
     },
     {
-      "group": "lifecycle",
+      "group": "Entity",
       "pages": [
         "api-reference/get-started",
         "api-reference/endpoint/check",
