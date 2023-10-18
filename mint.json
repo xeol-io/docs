@@ -55,7 +55,6 @@
     {
       "group": "Entity",
       "pages": [
-        "api-reference/get-started",
         "api-reference/endpoint/check",
         "api-reference/endpoint/support",
         "api-reference/endpoint/entities"

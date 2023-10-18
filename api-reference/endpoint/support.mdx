@@ -31,23 +31,32 @@ description: "Determine the support levels for an entity"
   </Expandable>
 </ParamField>
 
+<ParamField query="size" type="string" default="50">
+  The number of entities to return per page.
+</ParamField>
+
+<ParamField query="page" type="string" default="1">
+  The page number to return.
+</ParamField>
+
 ### Response
 
-<ResponseField name="results" type="object[]">
+<ResponseField name="items" type="object[]">
   A list of entities with support information
 
-  <Expandable title="lifecycle">
+  <Expandable title="item">
     <ResponseField name="entity" type="object">
       Matched entity info.
+
       <Expandable title="entity">
-        <ResponseField name="lts" type="boolean">
-          Whether the matched entity has Long Term Support
+        <ResponseField name="released" type="datetime">
+          When the entity was released
         </ResponseField>
         <ResponseField name="name" type="string">
           Name of the matched entity
         </ResponseField>
-        <ResponseField name="released" type="datetime">
-          When the entity was released
+        <ResponseField name="version" type="string">
+          Version of the matched entity
         </ResponseField>
         <ResponseField name="type" type="string">
           Type of the matched entity. Can be either service, device, software, package, os.
@@ -55,31 +64,44 @@ description: "Determine the support levels for an entity"
         <ResponseField name="vendor" type="string">
           Vendor of the matched entity
         </ResponseField>
-        <ResponseField name="version" type="string">
-          Version of the matched entity
+        <ResponseField name="lts" type="boolean">
+          Whether the matched entity has Long Term Support
         </ResponseField>
       </Expandable>
     </ResponseField>
+
     <ResponseField name="support" type="object[]">
       All available support including Extended Lifecycle Support for matched entity.
+
       <Expandable title="support">
-        <ResponseField name="eol" type="datetime">
-          End-of-life date
+        <ResponseField name="level" type="integer">
+          Support level
         </ResponseField>
         <ResponseField name="id" type="string">
           Support ID
         </ResponseField>
-        <ResponseField name="level" type="integer">
-          Support level
+        <ResponseField name="eol" type="datetime">
+          End-of-life date
         </ResponseField>
       </Expandable>
     </ResponseField>
   </Expandable>
 </ResponseField>
 
+<ResponseField name="page" type="integer">
+  The current page number
+</ResponseField>
+<ResponseField name="pages" type="integer">
+  The total number of pages
+</ResponseField>
+<ResponseField name="size" type="integer">
+  The number of items per page
+</ResponseField>
+
+
 <RequestExample>
   ```bash curl
-  curl --location --request POST 'https://edb.xeol.io/v1/support' \
+  curl --location --request POST 'https://edb.xeol.io/v1/support?size=1' \
   --header 'Content-Type: application/json' \
   --data-raw '{
     "entity": {
@@ -94,25 +116,30 @@ description: "Determine the support levels for an entity"
 </RequestExample>
 <ResponseExample>
   ```json 200
-  [
-    {
-      "entity": {
-        "lts": false,
-        "name": "MongoDB Server",
-        "released": "2015-03-03",
-        "type": "software",
-        "vendor": "MongoDB",
-        "version": "3.0"
-      },
-      "support": [
-        {
-          "eol": "2018-02-01",
-          "id": "STANDARD_SUPPORT",
-          "level": 0
-        }
-      ]
-    }
-  ]
+  {
+    "items": [
+      {
+        "entity": {
+          "released": "2022-05-23",
+          "name": "Alpine Linux",
+          "version": "3.16",
+          "type": "os",
+          "vendor": "Alpine",
+          "lts": false
+        },
+        "support": [
+          {
+            "level": 0,
+            "id": "STANDARD_SUPPORT",
+            "eol": "2024-05-23"
+          }
+        ]
+      }
+    ],
+    "page": 1,
+    "pages": 320247,
+    "size": 1
+  }
   ```
   ```json 400
   {

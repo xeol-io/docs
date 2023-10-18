@@ -11,43 +11,60 @@ description: "Get a list of all entities."
   entities of all types will be returned.
 </ParamField>
 
+<ParamField query="size" type="string" default="50">
+  The number of entities to return per page.
+</ParamField>
+
+<ParamField query="page" type="string" default="1">
+  The page number to return.
+</ParamField>
+
 ### Response
 
-<ResponseField name="entities" type="object[]">
- <Expandable title="entity">
+<ResponseField name="items" type="object[]">
+  <Expandable title="item">
     <ResponseField name="name" type="string">
-      The name of the entity
-    </ResponseField>
-    <ResponseField name="vendor" type="string">
-      The vendor of the entity
+      The name of the item
     </ResponseField>
     <ResponseField name="type" type="string">
-      The type of the entity
+      The type of the item
+    </ResponseField>
+    <ResponseField name="lts" type="boolean">
+      Long-term support status of the item
     </ResponseField>
   </Expandable>
+</ResponseField>
+<ResponseField name="page" type="integer">
+  The current page number
+</ResponseField>
+<ResponseField name="pages" type="integer">
+  The total number of pages
+</ResponseField>
+<ResponseField name="size" type="integer">
+  The number of items per page
 </ResponseField>
 
 
 <RequestExample>
   ```bash curl
-  curl --location --request GET 'https://edb.xeol.io/v1/entities' \
+  curl --location --request GET 'https://edb.xeol.io/v1/entities?type=package&size=1'
   ```
 </RequestExample>
 
 <ResponseExample>
   ```json 200
-  [
-    {
-        "name": ".NET",
-        "vendor": "Red Hat",
-        "type": "software"
-    },
-    {
-        "name": ".NET",
-        "vendor": "Microsoft",
-        "type": "software"
-    }
-  ]
+  {
+    "items": [
+      {
+        "name": "Rim.Client",
+        "type": "package",
+        "lts": false
+      }
+    ],
+    "page": 1,
+    "pages": 38903,
+    "size": 1
+  }
   ```
   ```json 400
   {
