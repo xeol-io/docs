@@ -36,14 +36,16 @@ description: "This endpoint verifies if an entity, identified by a specific iden
   of support for any entity.
 
   `STANDARD_SUPPORT` is defined as the base support level in which security updates are provided for the entity.
-
-  To find all support levels for an entity, use the [POST /v1/support](/api-reference/endpoint/support) endpoint.
 </ParamField>
 
 ### Response
 
 <ResponseField name="eol" type="boolean">
   Whether the matched entity is end-of-life.
+</ResponseField>
+
+<ResponseField name="eol_reason" type="string">
+  The reason the entity was marked as deprecated. Can be one of VENDOR_ANNOUNCED, REGISTRY_DEPRECATED, or SOURCE_ARCHIVED.
 </ResponseField>
 
 <ResponseField name="eol_date" type="string">
@@ -193,6 +195,7 @@ description: "This endpoint verifies if an entity, identified by a specific iden
       "found": true,
       "message": "Matched PURL and support level"
     },
+    "eol_reason": "VENDOR_ANNOUNCED",
     "eol": true,
     "eol_date": "2023-05-01",
     "evidence": {
