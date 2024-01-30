@@ -1,0 +1,70 @@
+---
+title: 'EOL Database'
+description: "All the information about Xeol's EOL database"
+icon: "database"
+---
+
+## EOL Database
+
+**Packages and Dependencies**
+| Ecosystem | Tracked    |
+| --------- | ---------- |
+| NuGet     | ✅         |
+| npm       | ✅         |
+| PyPI      | ✅         |
+| Maven     | ✅         |
+| Go        | ✅         |
+
+
+**Commercial Software**
+| Ecosystem      | Tracked    |
+| -------------- | ---------- |
+| Frameworks     | ✅         |
+| Datastores     | ✅         |
+| Microsoft      | ✅         |
+| Adobe          | ✅         |
+| Linux          | ✅         |
+| MacOS          | ✅         |
+| Windows        | ✅         |
+
+### Definition of EOL
+<CardGroup cols={2}>
+  <Card title="Vendor Announced" icon="megaphone">
+    Official vendor announced end-of-life date for major versions. Usually only available for commercial software.
+  </Card>
+  <Card title="Registry Deprecated" icon="hand">
+    Whether a package is marked as deprecated in the package registry. This is a strong signal that a package is unsupported.
+  </Card>
+  <Card title="Repository Archived" icon="box-archive">
+    Date the package source code was archived in repository. This is a strong signal that a package is unsupported.
+  </Card>
+  <Card title="Unmaintained" icon="broom">
+    We generate OSSF scores for all packages which is a proxy score for package activity and maintenance state.
+  </Card>
+</CardGroup>
+
+We determine EOL date and state based on the following rule:
+
+EOL = vendor announced EOL date > registry deprecation state > repository archival date > maintenance state
+
+### EOL Data Refresh
+TODO
+
+### FAQ
+<AccordionGroup>
+  <Accordion title="How do I get an API key to play with your EOL database?">
+    Message us at `founders@xeol.io` with your name and company and we will get you an API key to start playing!
+  </Accordion>
+  <Accordion title="What identifiers do you support to match software?">
+    We support matching software on `purl` , `cpe` , or `name` + `version`
+  </Accordion>
+  <Accordion title="What about EOL data for software that is not listed above?">
+    We are always expanding the coverage for our EOL database. Message us at `founders@xeol.io` and we will add the software you want within a week.
+  </Accordion>
+  <Accordion title="How often is the EOL data refreshed?">
+    Weekly
+  </Accordion>
+  <Accordion title="Do I have to parse the different EOL, deprecated, or archived dates myself?">
+    No, our API will return a boolean eol field and a datetime eol_date field for each product. We broke it down into different categories (EOL/EOS vs extended support vs deprecated vs archived) to highlight the differences in how commercial software and open source packages treat or signal end-of-life. 
+  </Accordion>
+</AccordionGroup>
