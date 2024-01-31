@@ -1,37 +1,27 @@
 ---
-title: 'EOL Database'
+title: "EOL Database"
 description: "All the information about Xeol's EOL database"
 icon: "database"
 ---
 
-We have two main tracks of supported software: open source packages and commercial software.
+### EOL Software Tracked
+We can track EOL for 2 main types of software, **open source packages** and **commercial software**.
 
-**Packages**
+**Open source packages such as:**
+- `nuget`, `npm`, `maven`, etc packages that have been marked as deprecated in their respective package registry or archived in repository.
 
-| Ecosystem | Tracked    |
-| --------- | ---------- |
-| NuGet     | ✅         |
-| npm       | ✅         |
-| Maven     | ✅         |
-
-- _NuGet_: All packages that have been marked as deprecated on the NuGet package registry.
-- _Npm_: The highest impact packages as defined by a download count of 1,000,000 or more per week and depended on by 500 or more other packages.
-- _Maven_: The top 10,000 most depended on packages on Maven Central.
-
-**Commercial Software**
-
-The types of commercial software we can track includes:
-- Operating Systems _(Linux, Windows, macOS, RHEL)_
-- Databases _(MongoDB, MySQL, PostgreSQL, etc.)_
-- Web Servers _(Apache, Nginx, etc.)_
-- Application Servers _(Tomcat, JBoss, etc.)_
-- Middleware _(RabbitMQ, Kafka, etc.)_
-- Development Tools _(JDK, .NET, etc.)_
-- Browsers _(Chrome, Firefox, etc.)_
-- Desktop Client Software _(Office, Adobe, etc.)_
+**Commercial software such as:**
+- Operating Systems (Linux, Windows, macOS, RHEL, etc)
+- Databases (MongoDB, MySQL, PostgreSQL, etc)
+- Web Servers (Apache, Nginx, etc)
+- Application Servers (Tomcat, JBoss, etc)
+- Middleware (RabbitMQ, Kafka, etc)
+- Development Tools (JDK, .NET, etc)
+- Browsers (Chrome, Firefox, etc)
+- Desktop Client Software (Office, Adobe, etc)
 
 ### Definition of EOL
-<CardGroup cols={2}>
+<CardGroup cols={3}>
   <Card title="Vendor Announced" icon="megaphone">
     Official vendor announced end-of-life date for major versions. Usually only available for commercial software.
   </Card>
@@ -43,18 +33,32 @@ The types of commercial software we can track includes:
   </Card>
 </CardGroup>
 
-### Data Consistency
+### EOL Data Consistency
 
-There are a couple ways we ensure the data in our database is consistent and accurate:
+Here is how we ensure our EOL database is consistent and accurate:
 
-1. For each software component, we gather all releases for that software by scraping release data
-from the official source repository, the vendor's website, or the package registry. We check our
+**Accuracy**
+
+For each software component, we gather all releases for that software by scraping release data
+from the official vendor webiste, source repository, or package registry. We check our
 database to ensure the version is tracked in some way. If it isn't, the package version is added to our
 queue of versions to be tracked.
 
-2. When requests hit our API, we track which requests have been "misses" (no component lifecycle was found).
-The missed requests are grouped and manually reviewed by a human who decides how to proceed for each missed request.
-This process ensures that we are constantly improving our coverage.
+**Coverage**
+
+When requests hit our API, we track which requests have been "misses" (no component lifecycle was found).
+The missed requests are grouped and manually reviewed by our team that then decides how to proceed for each missed request.
+This process ensures that we are constantly increasing our coverage.
+
+**Resiliency**
+
+_Source (vendor site, package respository, etc) has moved_
+
+Each scraper has a heartbeat. If we don’t see new release information every 3 months, a human steps in to investigate.
+
+_Source has changed significantly_
+
+The scraper will error out and trigger an alert to our team which will then investigate and remediate manually.
 
 ### FAQ
 <AccordionGroup>
