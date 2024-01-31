@@ -6,26 +6,31 @@ icon: "database"
 
 ## EOL Database
 
-**Packages and Dependencies**
+We have two main tracks of supported software: open source packages and commercial software.
+
+**Packages**
+
 | Ecosystem | Tracked    |
 | --------- | ---------- |
 | NuGet     | ✅         |
 | npm       | ✅         |
-| PyPI      | ✅         |
 | Maven     | ✅         |
-| Go        | ✅         |
 
+- _NuGet_: All packages that have been marked as deprecated on the NuGet package registry.
+- _Npm_: The highest impact packages as defined by a download count of 1,000,000 or more per week and depended on by 500 or more other packages.
+- _Maven_: The top 10,000 most depended on packages on Maven Central.
 
 **Commercial Software**
-| Ecosystem      | Tracked    |
-| -------------- | ---------- |
-| Frameworks     | ✅         |
-| Datastores     | ✅         |
-| Microsoft      | ✅         |
-| Adobe          | ✅         |
-| Linux          | ✅         |
-| MacOS          | ✅         |
-| Windows        | ✅         |
+
+The types of commercial software we can track includes:
+- Operating Systems _(Linux, Windows, macOS, RHEL)_
+- Databases _(MongoDB, MySQL, PostgreSQL, etc.)_
+- Web Servers _(Apache, Nginx, etc.)_
+- Application Servers _(Tomcat, JBoss, etc.)_
+- Middleware _(RabbitMQ, Kafka, etc.)_
+- Development Tools _(JDK, .NET, etc.)_
+- Browsers _(Chrome, Firefox, etc.)_
+- Desktop Client Software _(Office, Adobe, etc.)_
 
 ### Definition of EOL
 <CardGroup cols={2}>
@@ -38,17 +43,20 @@ icon: "database"
   <Card title="Repository Archived" icon="box-archive">
     Date the package source code was archived in repository. This is a strong signal that a package is unsupported.
   </Card>
-  <Card title="Unmaintained" icon="broom">
-    We generate OSSF scores for all packages which is a proxy score for package activity and maintenance state.
-  </Card>
 </CardGroup>
 
-We determine EOL date and state based on the following rule:
+### Data Consistency
 
-EOL = vendor announced EOL date > registry deprecation state > repository archival date > maintenance state
+There are a couple ways we ensure the data in our database is consistent and accurate:
 
-### EOL Data Refresh
-TODO
+1. For each software component, we gather all releases for that software by scraping release data
+from the official source repository, the vendor's website, or the package registry. We check our
+database to ensure the version is tracked in some way. If it isn't, the package version is added to our
+queue of versions to be tracked.
+
+2. When requests hit our API, we track which requests have been "misses" (no component lifecycle was found).
+The missed requests are grouped and manually reviewed by a human who decides how to proceed for each missed request.
+This process ensures that we are constantly improving our coverage.
 
 ### FAQ
 <AccordionGroup>
@@ -65,6 +73,6 @@ TODO
     Weekly
   </Accordion>
   <Accordion title="Do I have to parse the different EOL, deprecated, or archived dates myself?">
-    No, our API will return a boolean eol field and a datetime eol_date field for each product. We broke it down into different categories (EOL/EOS vs extended support vs deprecated vs archived) to highlight the differences in how commercial software and open source packages treat or signal end-of-life. 
+    No, our API will return a boolean eol field and a datetime eol_date field for each product. We broke it down into different categories (EOL/EOS vs extended support vs deprecated vs archived) to highlight the differences in how commercial software and open source packages treat or signal end-of-life.
   </Accordion>
 </AccordionGroup>
