@@ -62,7 +62,7 @@
     }
   ],
   "api": {
-    "baseUrl": "https://edb.xeol.io/",
+    "baseUrl": "https://edb-test.xeol.io/",
     "auth": {
       "method": "key"
     }

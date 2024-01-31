@@ -1,6 +1,6 @@
 ---
 title: "Check EOL"
-api: "POST https://edb.xeol.io/v1/check"
+api: "POST https://edb-test.xeol.io/v1/check"
 description: "This endpoint verifies if an entity, identified by a specific identifier, has reached End-of-Life (EOL) status."
 ---
 
@@ -177,7 +177,7 @@ description: "This endpoint verifies if an entity, identified by a specific iden
 
 <RequestExample>
   ```bash curl
-  curl --location --request POST 'https://edb.xeol.io/v1/check' \
+  curl --location --request POST 'https://edb-test.xeol.io/v1/check' \
   --header 'Content-Type: application/json' \
   --data-raw '{
     "identifier": {
