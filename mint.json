@@ -25,7 +25,7 @@
   },
   "anchors": [
     {
-      "name": "API References",
+      "name": "API Reference",
       "icon": "code",
       "url": "api-reference"
     }
@@ -54,10 +54,16 @@
       ]
     },
     {
-      "group": "Entity",
+      "group": "API",
       "pages": [
         "api-reference/endpoint/check",
         "api-reference/endpoint/entities"
+      ]
+    },
+    {
+      "group": "Architecture",
+      "pages": [
+        "api-reference/architecture"
       ]
     }
   ],
