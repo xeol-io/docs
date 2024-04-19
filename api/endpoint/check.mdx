@@ -1,37 +1,27 @@
 ---
 title: "Check EOL"
 api: "POST https://edb-test.xeol.io/v1/check"
-description: "This endpoint verifies if an entity, identified by a specific identifier, has reached End-of-Life (EOL) status."
+description: "This endpoint return whether an entity has reached End-of-Life (EOL) status."
 ---
 
 ### Body
 
-<ParamField body="identifier" type="object" required>
+<ParamField body="component" type="object" required>
   An identifier to determine an entity's EOL status. Only one of the following can be provided: `cpe`, `purl`, `custom`.
   <Expandable title="properties">
-    <ParamField body="cpe" type="string">
-      A Common Platform Enumeration (CPE) identifier. Can be either a CPE 2.3 or CPE 2.2 identifier.
+    <ParamField body="name" type="string" required>
+      The name of the software. 
     </ParamField>
-
-    <ParamField body="purl" type="string">
-      Package URL (PURL) identifier.
+    <ParamField body="version" type="string" required>
+      The software version.
     </ParamField>
-
-    <ParamField body="custom" type="object">
-      Custom identifier object
-      <Expandable title="custom">
-        <ParamField body="name" type="string">
-          Entity name
-        </ParamField>
-        <ParamField body="version" type="string">
-          Entity version
-        </ParamField>
-      </Expandable>
+    <ParamField body="ecosystem" type="string" required>
+      The ecosystem that this software belongs to. Defaults to `generic`.
     </ParamField>
   </Expandable>
 </ParamField>
 
-<ParamField body="support" type="string">
+<ParamField body="lifecycle" type="string">
   The field takes a support ID to match against. If not provided, it will default to `STANDARD_SUPPORT` which is the base level
   of support for any entity.
 
@@ -177,11 +167,13 @@ description: "This endpoint verifies if an entity, identified by a specific iden
 
 <RequestExample>
   ```bash curl
-  curl --location --request POST 'https://edb-test.xeol.io/v1/check' \
-  --header 'Content-Type: application/json' \
+  curl --location --request POST 'https://edb-prod.xeol.io/v1/check' \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
   --data-raw '{
-    "identifier": {
-      "cpe": "cpe:/o:alpinelinux:alpine_linux:3.14",
+    "component": {
+        "name": "Go",
+        "ecosystem": "generic",
+        "version": "1.15"
     }
   }'
   ```
@@ -190,58 +182,61 @@ description: "This endpoint verifies if an entity, identified by a specific iden
 <ResponseExample>
   ```json 200
   {
-    "match": {
-      "found": true,
-      "message": "Matched PURL and support level"
-    },
-    "eol_reason": "VENDOR_ANNOUNCED",
-    "eol": true,
-    "eol_date": "2023-05-01",
-    "evidence": {
-      "schema_version": "1.0.0",
-      "id": "LC-jj77-qw69-3q9h",
-      "modified": "2021-07-01T00:00:00.000Z",
-      "published": "2021-07-01T00:00:00.000Z",
-      "entity": {
-        "lts": false,
-        "name": "Alpine Linux",
-        "released": "2021-06-15",
-        "type": "os",
-        "version": "3.14"
+    "error": null,
+    "result": {
+      "componentName": "Go",
+      "ecosystem": "generic",
+      "version": {
+        "id": "cv_92UqG6FZu2uoxebKZs5bcEN8CFoqPGC6bx62kn4fzEwr",
+        "version": "1.15",
+        "componentId": "c_3qrajMUJoCZLzbYxCA6wxfo1W1nDPTLvr5PMJKuYiFks",
+        "releasedAt": "2020-08-11T00:00:00.000Z",
+        "createdAt": "2024-03-15T17:00:19.685Z",
+        "updatedAt": "2024-03-15T17:00:19.685Z"
       },
-      "identification": {
-        "cpes": [
-          "cpe:2.3:o:alpinelinux:alpine_linux",
-          "cpe:/o:alpinelinux:alpine_linux"
-        ],
-        "versions": [
-          "3.14.x"
-        ]
+      "eol": {
+        "now": {
+          "primary": {
+            "reason": "vendor_announced",
+            "date": "2021-08-16T00:00:00.000Z",
+            "supportLevel": "STANDARD_SUPPORT",
+            "isDefault": true
+          },
+          "other": []
+        },
+        "future": null
       },
-      "support": [
-        {
-          "eol": "2023-05-01",
-          "id": "STANDARD_SUPPORT",
-          "level": 0
-        }
-      ],
-      "references": [
-        {
-          "type": "CHANGELOG",
-          "url": "https://alpinelinux.org/releases/"
-        }
-      ]
-    },
-    "request": {
-      "identifier": {
-        "cpe": "cpe:/o:alpinelinux:alpine_linux:3.14"
-      }
+      "lifecycles": [{
+        "id": "life_Hukr1PH1ir9XMmDomzZ4j1hAurbWnJfTr4Hs6i4XZtkJ",
+        "eolAt": "2021-08-16T00:00:00.000Z",
+        "componentId": "c_3qrajMUJoCZLzbYxCA6wxfo1W1nDPTLvr5PMJKuYiFks",
+        "range": "~1.15",
+        "supportLevel": "STANDARD_SUPPORT",
+        "isDefault": true,
+        "uri": null,
+        "eolField": "eolAt",
+        "isEol": null,
+        "componentVersionId": "cv_92UqG6FZu2uoxebKZs5bcEN8CFoqPGC6bx62kn4fzEwr",
+        "lifecycleId": "life_Hukr1PH1ir9XMmDomzZ4j1hAurbWnJfTr4Hs6i4XZtkJ"
+      }],
+      "registry": null
     }
   }
   ```
   ```json 400
   {
-    "message": "Invalid request payload"
+    "result": null,
+    "error": {
+      "message": "Json body validation failed: component.ecosystem: invalid enum value. expected 'generic' | 'npm' | 'nuget' | 'pypi' | 'maven' | 'golang', received ''"
+    }
+  }
+  ```
+  ```json 401
+  {
+    "result": null,
+    "error": {
+      "message": "Unauthorized"
+    }
   }
   ```
 </ResponseExample>

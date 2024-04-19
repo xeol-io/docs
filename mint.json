@@ -7,10 +7,10 @@
   },
   "favicon": "/images/favicon.png",
   "colors": {
-    "primary": "#722ed1",
-    "light": "#722ed1",
+    "primary": "#FCAE00",
+    "light": "#FCAE00",
     "background": {
-      "dark": "#000000"
+      "dark": "#232027"
     }
   },
   "topbarLinks": [
@@ -25,24 +25,26 @@
   },
   "anchors": [
     {
-      "name": "API Reference",
-      "icon": "code",
-      "url": "api-reference"
+      "name": "API",
+      "icon": "rectangle-code",
+      "url": "api"
+    },
+    {
+      "name": "Dashboard",
+      "icon": "desktop",
+      "url": "dashboard"
+    },
+    {
+      "name": "bumpgen",
+      "icon": "user-robot",
+      "url": "bumpgen"
     }
   ],
   "navigation": [
     {
-      "group": "Quickstart",
+      "group": "Home",
       "pages": [
-        "home/intro",
-        "home/cli",
-        "home/dashboard"
-      ]
-    },
-    {
-      "group": "SSO",
-      "pages": [
-        "home/okta-sso"
+        "intro"
       ]
     },
     {
@@ -56,21 +58,34 @@
     {
       "group": "API",
       "pages": [
-        "api-reference/endpoint/check",
-        "api-reference/endpoint/entities"
+        "api/endpoint/check"
+      ]
+    },
+    {
+      "group": "Dashboard",
+      "pages": [
+        "dashboard/cli",
+        "dashboard/home",
+        "dashboard/okta-sso"
+      ]
+    },
+    {
+      "group": "bumpgen",
+      "pages": [
+        "bumpgen/home"
       ]
     },
     {
       "group": "Architecture",
       "pages": [
-        "api-reference/architecture"
+        "api/architecture"
       ]
     }
   ],
   "api": {
-    "baseUrl": "https://edb-test.xeol.io/",
+    "baseUrl": "https://edb-prod.xeol.io/",
     "auth": {
-      "method": "key"
+      "method": "bearer"
     }
   },
   "footerSocials": {
