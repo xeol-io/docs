@@ -27,7 +27,7 @@
     {
       "name": "API",
       "icon": "rectangle-code",
-      "url": "api"
+      "url": "api-reference"
     },
     {
       "name": "Dashboard",
@@ -58,7 +58,7 @@
     {
       "group": "API",
       "pages": [
-        "api/endpoint/check"
+        "api-reference/endpoint/check"
       ]
     },
     {
@@ -78,7 +78,7 @@
     {
       "group": "Architecture",
       "pages": [
-        "api/architecture"
+        "api-reference/architecture"
       ]
     }
   ],
