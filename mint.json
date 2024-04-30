@@ -15,13 +15,13 @@
   },
   "topbarLinks": [
     {
-      "name": "Sign Up!",
-      "url": "https://www.xeol.io/contact"
+      "name": "Beta",
+      "url": "https://www.xeol.io/beta"
     }
   ],
   "topbarCtaButton": {
     "type": "github",
-    "url": "https://github.com/xeol-io/xeol"
+    "url": "https://github.com/xeol-io/bumpgen"
   },
   "anchors": [
     {
