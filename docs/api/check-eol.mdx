@@ -1,0 +1,352 @@
+---
+id: check
+title: "Check EOL"
+description: "This endpoint return whether an entity has reached End-of-Life (EOL) status."
+sidebar_label: "Check EOL"
+hide_title: true
+hide_table_of_contents: true
+api: eJw=
+sidebar_class_name: "post api-method"
+info_path: docs/endpoint/intro
+custom_edit_url: null
+slug: check-eol
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Check EOL"}
+></Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/eol/check"}
+  context={"endpoint"}
+></MethodEndpoint>
+
+This endpoint return whether an entity has reached End-of-Life (EOL) status.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+></Heading>
+
+<RequestSchema
+  title={"Body"}
+  body={{
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          required: ["component"],
+          properties: {
+            component: {
+              type: "object",
+              required: ["name", "version", "ecosystem"],
+              properties: {
+                name: {
+                  type: "string",
+                  description: "The name of the software",
+                },
+                version: {
+                  type: "string",
+                  description: "The software version",
+                },
+                ecosystem: {
+                  type: "string",
+                  description: "The ecosystem that this software belongs to",
+                  default: "generic",
+                },
+              },
+            },
+            lifecycle: {
+              type: "string",
+              default: "STANDARD_SUPPORT",
+              description: "The support ID to match against.",
+            },
+          },
+        },
+      },
+    },
+    required: true,
+  }}
+></RequestSchema>
+
+<StatusCodes
+  responses={{
+    "200": {
+      description: "Successful response",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              eol: {
+                type: "boolean",
+                description: "Whether the matched entity is end-of-life",
+              },
+              eol_reason: {
+                type: "string",
+                description:
+                  "The reason the entity was marked as deprecated. Can be one of VENDOR_ANNOUNCED, REGISTRY_DEPRECATED, or SOURCE_ARCHIVED",
+              },
+              eol_date: {
+                type: "string",
+                description: "The end-of-life date for the matched entity",
+              },
+              match: {
+                type: "object",
+                properties: {
+                  found: {
+                    type: "boolean",
+                    description: "Whether a match was found",
+                  },
+                  message: {
+                    type: "string",
+                    description:
+                      "Information about why the match was not found",
+                  },
+                },
+              },
+              found_support: {
+                type: "boolean",
+                description: "Whether the entity support was found",
+              },
+              request: {
+                type: "object",
+                properties: {
+                  identifier: {
+                    type: "object",
+                    properties: {
+                      cpe: {
+                        type: "string",
+                        description: "Common Platform Enumeration identifier",
+                      },
+                    },
+                  },
+                },
+              },
+              evidence: {
+                type: "object",
+                properties: {
+                  schema_version: {
+                    type: "string",
+                    description: "Schema version",
+                  },
+                  id: {
+                    type: "string",
+                    description: "Unique identifier",
+                  },
+                  modified: {
+                    type: "string",
+                    format: "date-time",
+                    description: "Last modified date",
+                  },
+                  published: {
+                    type: "string",
+                    format: "date-time",
+                    description: "Published date",
+                  },
+                  entity: {
+                    type: "object",
+                    properties: {
+                      lts: {
+                        type: "boolean",
+                        description:
+                          "Whether the matched entity has Long Term Support",
+                      },
+                      name: {
+                        type: "string",
+                        description: "Name of the matched entity",
+                      },
+                      released: {
+                        type: "string",
+                        format: "date-time",
+                        description: "Release date of the matched entity",
+                      },
+                      type: {
+                        type: "string",
+                        description:
+                          "Type of the matched entity. Will be one of: service, device, software, package, os",
+                      },
+                      vendor: {
+                        type: "string",
+                        description: "Vendor of the matched entity",
+                      },
+                      version: {
+                        type: "string",
+                        description: "Version of the matched entity",
+                      },
+                    },
+                  },
+                  support: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        eol: {
+                          type: "string",
+                          format: "date-time",
+                          description: "End-of-life date",
+                        },
+                        id: {
+                          type: "string",
+                          description: "Support ID",
+                        },
+                        level: {
+                          type: "integer",
+                          description: "Support level",
+                        },
+                      },
+                    },
+                  },
+                  references: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        type: {
+                          type: "string",
+                          description:
+                            "Type of reference. Will be one of: CHANGELOG, ARTICLE, WEB, SOURCE, PACKAGE",
+                        },
+                        url: {
+                          type: "string",
+                          description: "URL of the reference",
+                        },
+                      },
+                    },
+                  },
+                  identification: {
+                    type: "object",
+                    properties: {
+                      cpes: {
+                        type: "array",
+                        items: {
+                          type: "string",
+                        },
+                        description:
+                          "List of Common Platform Enumeration identifiers",
+                      },
+                      custom: {
+                        type: "object",
+                        properties: {
+                          name: {
+                            type: "string",
+                            description: "Custom name",
+                          },
+                          vendor: {
+                            type: "string",
+                            description: "Custom vendor",
+                          },
+                        },
+                      },
+                      purls: {
+                        type: "array",
+                        items: {
+                          type: "string",
+                        },
+                        description: "List of Package URL identifiers",
+                      },
+                      versions: {
+                        type: "array",
+                        items: {
+                          type: "string",
+                        },
+                        description: "List of versions",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "400": {
+      description: "Bad request",
+    },
+    "401": {
+      description: "Unauthorized",
+    },
+  }}
+></StatusCodes>
+
+<OperationTabs>
+  <TabItem value="200" label="200">
+    ```json
+    {
+      "error": null,
+      "result": {
+        "componentName": "Go",
+        "ecosystem": "generic",
+        "version": {
+          "id": "cv_92UqG6FZu2uoxebKZs5bcEN8CFoqPGC6bx62kn4fzEwr",
+          "version": "1.15",
+          "componentId": "c_3qrajMUJoCZLzbYxCA6wxfo1W1nDPTLvr5PMJKuYiFks",
+          "releasedAt": "2020-08-11T00:00:00.000Z",
+          "createdAt": "2024-03-15T17:00:19.685Z",
+          "updatedAt": "2024-03-15T17:00:19.685Z"
+        },
+        "eol": {
+          "now": {
+            "primary": {
+              "reason": "vendor_announced",
+              "date": "2021-08-16T00:00:00.000Z",
+              "supportLevel": "STANDARD_SUPPORT",
+              "isDefault": true
+            },
+            "other": []
+          },
+          "future": null
+        },
+        "lifecycles": [{
+          "id": "life_Hukr1PH1ir9XMmDomzZ4j1hAurbWnJfTr4Hs6i4XZtkJ",
+          "eolAt": "2021-08-16T00:00:00.000Z",
+          "componentId": "c_3qrajMUJoCZLzbYxCA6wxfo1W1nDPTLvr5PMJKuYiFks",
+          "range": "~1.15",
+          "supportLevel": "STANDARD_SUPPORT",
+          "isDefault": true,
+          "uri": null,
+          "eolField": "eolAt",
+          "isEol": null,
+          "componentVersionId": "cv_92UqG6FZu2uoxebKZs5bcEN8CFoqPGC6bx62kn4fzEwr",
+          "lifecycleId": "life_Hukr1PH1ir9XMmDomzZ4j1hAurbWnJfTr4Hs6i4XZtkJ"
+        }],
+        "registry": null
+      }
+    }
+    ```
+  </TabItem>
+  <TabItem value="400" label="400">
+    ```json
+    {
+      "result": null,
+      "error": {
+        "message": "Json body validation failed: component.ecosystem: invalid enum value. expected 'generic' | 'npm' | 'nuget' | 'pypi' | 'maven' | 'golang', received ''"
+      }
+    }
+    ```
+  </TabItem>
+  <TabItem value="401" label="401">
+    ```json
+    {
+      "result": null,
+      "error": {
+        "message": "Unauthorized"
+      }
+    }
+    ```
+  </TabItem>
+</OperationTabs>

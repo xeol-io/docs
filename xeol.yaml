@@ -1,0 +1,4 @@
+openapi: 3.0.0
+servers:
+  - url: https://edb-prod.xeol.io
+    description: Default server
