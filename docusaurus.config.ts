@@ -12,7 +12,7 @@ const config: Config = {
   baseUrl: "/docs",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
-  favicon: "favicon.ico",
+  favicon: "favicon.png",
   organizationName: "xeol-io",
   projectName: "xeol",
 
