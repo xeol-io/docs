@@ -8,9 +8,8 @@ import type * as OpenApiPlugin from "docusaurus-plugin-openapi-docs";
 
 const config: Config = {
   title: "Xeol",
-  tagline: "Dinosaurs are cool",
-  url: "https://docs.xeol.io",
-  baseUrl: "/",
+  url: "https://xeol-io.github.io/docs",
+  baseUrl: "/docs",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "favicon.ico",
