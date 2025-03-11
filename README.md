@@ -1,34 +1,40 @@
-# Mintlify Starter Kit
+# Template
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
+This template is built for [Docusaurus 3](https://docusaurus.io/), a modern static website generator.
 
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
+### Usage
 
-### 👩‍💻 Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
-
-```
-npm i -g mintlify
+```bash
+npx create-docusaurus@3.5.2 my-website --package-manager yarn
 ```
 
-Run the following command at the root of your documentation (where mint.json is)
+> When prompted to select a template choose `Git repository`.
 
+Template Repository URL:
+
+```bash
+https://github.com/PaloAltoNetworks/docusaurus-template-openapi-docs.git
 ```
-mintlify dev
+
+> When asked how the template repo should be cloned choose "copy" (unless you know better).
+
+```bash
+cd my-website
+yarn
 ```
 
-### 😎 Publishing Changes
+### Local Development
 
-Changes will be deployed to production automatically after pushing to the default branch.
+```bash
+yarn start
+```
 
-You can also preview changes using PRs, which generates a preview link of the docs.
+This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
-#### Troubleshooting
+### Build
 
-- Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
-- Page loads as a 404 - Make sure you are running in a folder with `mint.json`
+```bash
+yarn build
+```
+
+This command generates static content into the `build` directory and can be served using any static contents hosting service.
