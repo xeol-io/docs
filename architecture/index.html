@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-architecture" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.7.0">
+<title data-rh="true">Architecture | Xeol</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://docs.xeol.io/architecture"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Architecture | Xeol"><meta data-rh="true" name="description" content="All the information about Xeol&#x27;s EOL database"><meta data-rh="true" property="og:description" content="All the information about Xeol&#x27;s EOL database"><link data-rh="true" rel="icon" href="/favicon.ico"><link data-rh="true" rel="canonical" href="https://docs.xeol.io/architecture"><link data-rh="true" rel="alternate" href="https://docs.xeol.io/architecture" hreflang="en"><link data-rh="true" rel="alternate" href="https://docs.xeol.io/architecture" hreflang="x-default"><link rel="stylesheet" href="/assets/css/styles.5665b82c.css">
+<script src="/assets/js/runtime~main.307b158b.js" defer="defer"></script>
+<script src="/assets/js/main.0f31605e.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"light")}(),function(){try{const n=new URLSearchParams(window.location.search).entries();for(var[t,e]of n)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/logo-light.svg"><link rel="preload" as="image" href="/logo-dark.svg"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/logo-light.svg" alt="Xeol, by HeroDevs" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/logo-dark.svg" alt="Xeol, by HeroDevs" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div></a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/xeol-io/xeol" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/">Home</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/eol-scanner">EOL Scanner</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/architecture">Architecture</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link">API</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item post api-method"><a class="menu__link" tabindex="0" href="/api/check-eol">Check EOL</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link">Legal</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Legal/data-security">Data Security</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Legal/privacy-policy">Privacy Policy</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/Legal/terms">Terms &amp; Conditions</a></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_xLCN"><div class="docItemContainer_jfFK"><article><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><div class="row"><div class="col col--12 markdown"><header><h1>Architecture</h1></header>
+<p>The architecture is a robust ingestion pipeline combined with scrapers and clients
+that collect information about software components.</p>
+<p><img decoding="async" loading="lazy" src="/assets/images/edb-architecture-c06361af46d131330a57929ead03f6d0.png" width="2761" height="2022" class="img_ev3q"></p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="workers">Workers<a href="#workers" class="hash-link" aria-label="Direct link to Workers" title="Direct link to Workers">​</a></h2>
+<p>The workers are responsible for collecting information. They run
+weekly on a cron schedule to fetch information about known software components.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="registry-workers">Registry Workers<a href="#registry-workers" class="hash-link" aria-label="Direct link to Registry Workers" title="Direct link to Registry Workers">​</a></h3>
+<p>The registry workers are responsible for collecting information from package registries.
+These workers will fetch the top 10,000 most depended packages for each registry
+and fetch information about the state of their deprecation status for each version.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="custom-product-workers">Custom Product Workers<a href="#custom-product-workers" class="hash-link" aria-label="Direct link to Custom Product Workers" title="Direct link to Custom Product Workers">​</a></h3>
+<p>The custom product workers are resopnsible for collecting information about custom products
+that do not exist in a registry such as Wireshark, Windows, Adobe products, OperatingSystems,
+and other commercial or commercial OSS software.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="ingestion-pipeline">Ingestion Pipeline<a href="#ingestion-pipeline" class="hash-link" aria-label="Direct link to Ingestion Pipeline" title="Direct link to Ingestion Pipeline">​</a></h2>
+<p>The ingestion pipeline is responsible for processing the data from the workers and
+storing it in the database. The pipeline is responsible for ensuring that the data is
+consistent and accurate.</p>
+<p>There are three main components to the ingestion pipeline:</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="process">Process<a href="#process" class="hash-link" aria-label="Direct link to Process" title="Direct link to Process">​</a></h4>
+<p>During this stage, the data is processed and transformed into a consistent format.</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="enrich">Enrich<a href="#enrich" class="hash-link" aria-label="Direct link to Enrich" title="Direct link to Enrich">​</a></h4>
+<p>During this stage, the data is enriched with additional information such as EOL dates
+if not already present, and other metadata about the software such as the archival
+status of the source repository.</p>
+<p>This stage also includes generating EOL dates for products based on the encoded vendor
+support policy. For example, Firefox has a vendor support policy such that when a new minor
+version is released, the previous minor version becomes EOL.</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="validate">Validate<a href="#validate" class="hash-link" aria-label="Direct link to Validate" title="Direct link to Validate">​</a></h4>
+<p>In order to ensure that the component data is highly consistent and accurate, we validate
+the data to be stored in two ways.</p>
+<p>The first pass includes using GPT-4 to validate the data and metada about the component. If the
+data is flagged as incorrect, a human will intervene to diagnose the problem and fix the data.</p>
+<p>The second pass includes manual review of the data by a human to ensure that EOL dates
+and other metadata about the component is accurate.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="xeol-api">Xeol API<a href="#xeol-api" class="hash-link" aria-label="Direct link to Xeol API" title="Direct link to Xeol API">​</a></h2>
+<p>The Xeol API is responsible for serving the data to clients. The API serves component information
+in a consistent format.</p>
+<p>In the case of a client request that results in a miss (no component was found), the API will
+report this information to a human to investigate.</p>
+<p>In the case of there being no component in our database, the component will be added to the queue to be tracked. And in the case
+that a component exists, but we lack coverage of identifier information (CPE or PURL), identifiers
+will be updated on the component.</p>
+<p>Since PURLs and other naming information is generated in a decentralized manner, we can not reliably
+generate PURLs for all components beforehand. This feedback loop ensures that as time goes on, we
+will have more and more coverage of component identifiers. If you&#x27;d like to read more about the &quot;naming problem&quot;
+in software identification, you can read more on Tom Alrich&#x27;s blog <a href="https://tomalrichblog.blogspot.com/2020/11/the-naming-problem.html" target="_blank" rel="noopener noreferrer">here</a>
+or a report by CISA called <a href="https://www.cisa.gov/sites/default/files/2023-10/Software-Identification-Ecosystem-Option-Analysis-508c.pdf" target="_blank" rel="noopener noreferrer">Software Identification Ecosystem Option Analysis</a></p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="eol-software-tracked">EOL Software Tracked<a href="#eol-software-tracked" class="hash-link" aria-label="Direct link to EOL Software Tracked" title="Direct link to EOL Software Tracked">​</a></h2>
+<p>We can track EOL for 2 main types of software, <strong>open source packages</strong> and <strong>commercial software</strong>.</p>
+<p><strong>OSS Components</strong></p>
+<ul>
+<li><code>NuGet</code></li>
+<li><code>npm</code></li>
+<li><code>Maven</code></li>
+<li><code>PyPI</code></li>
+<li><code>Golang</code></li>
+<li><code>RubyGems</code></li>
+</ul>
+<p>We track the top 10,000 most used packages for each registry.</p>
+<p><strong>Commercial &amp; Commercial OSS</strong></p>
+<ul>
+<li>Operating Systems (Linux, Windows, macOS, RHEL, etc)</li>
+<li>Databases (MongoDB, MySQL, PostgreSQL, etc)</li>
+<li>Web Servers (Apache, Nginx, etc)</li>
+<li>Application Servers (Tomcat, JBoss, etc)</li>
+<li>Middleware (RabbitMQ, Kafka, etc)</li>
+<li>Runtimes (JDK, .NET, etc)</li>
+<li>Browsers (Chrome, Firefox, etc)</li>
+<li>Desktop Client Software (Office, Adobe, etc)</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="definition-of-eol">Definition of EOL<a href="#definition-of-eol" class="hash-link" aria-label="Direct link to Definition of EOL" title="Direct link to Definition of EOL">​</a></h3>
+<div class="row"><div class="col col--4"><div class="card"><div class="card__header"><h3>📢 Vendor Announced</h3></div><div class="card__body"><p>The vendor has a support policy for this software and has announced an
+EOL date. This usually only applies to Commercial and Commercial OSS.</p></div></div></div><div class="col col--4"><div class="card"><div class="card__header"><h3>✋ Registry Deprecated</h3></div><div class="card__body"><p>The package maintainer has marked an entire package or specific package
+versions as deprecated on the package registry.</p></div></div></div><div class="col col--4"><div class="card"><div class="card__header"><h3>📦 Repository Archived</h3></div><div class="card__body"><p>The source repository for the package has been archived and is no longer
+maintained.</p></div></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="data-coverage-and-consistency">Data Coverage and Consistency<a href="#data-coverage-and-consistency" class="hash-link" aria-label="Direct link to Data Coverage and Consistency" title="Direct link to Data Coverage and Consistency">​</a></h3>
+<p>Here&#x27;s how we&#x27;re thinking about the coverage and accuracy of the data in our EOL database:</p>
+<p><strong>Accuracy</strong></p>
+<p>For each software component, we gather all releases for that software by scraping release data
+from the official vendor webiste, source repository, or package registry. We check our
+database to ensure the version is tracked in some way.</p>
+<p>We have a two pass validation process for each component. The first pass is done by GPT-4
+and the second pass is done by a human. This ensures that the data is highly accurate.</p>
+<p><strong>Coverage</strong></p>
+<p>When requests hit our API, we track which requests have been &quot;misses&quot; (no component found).</p>
+<p>In the case of there being no component in our database, the component will be added to the queue to be tracked. And in the case
+that a component exists, but we lack coverage of identifier information (CPE or PURL), identifiers
+will be updated on the component.</p>
+<p>This feedback loop ensures that as time goes on, we will have more and more coverage of components and component identifier information.</p>
+<p><strong>Resiliency</strong></p>
+<p>The entire ingestion pipeline and all workers are running in temporal workflows. Each Temporal workflow
+is able to maintain its state and progress even in the face of failures, crashes, or server outages. This
+allows us to build resilient pipelines that can reliably handle the scraping of data from potentially unreliable
+websites.</p>
+<p>Each worker runs on a cron schedule. In the case that the vendor website has changed significantly and we are no
+longer able to parse it, the scraper will error out and trigger an alert to our team which will then investigate and remediate manually.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="faq">FAQ<a href="#faq" class="hash-link" aria-label="Direct link to FAQ" title="Direct link to FAQ">​</a></h3>
+<details class="details_lb9f alert alert--info details_b_Ee" data-collapsed="true"><summary>How do I get an API key to play with your EOL database?</summary><div><div class="collapsibleContent_i85q"><p>Message us at <code>founders@xeol.io</code> with your name and company and we will get
+you an API key to start playing!</p></div></div></details>
+<details class="details_lb9f alert alert--info details_b_Ee" data-collapsed="true"><summary>What identifiers do you support to match software?</summary><div><div class="collapsibleContent_i85q"><p>We support matching software on <code>purl</code> , <code>cpe</code> , or <code>name</code> + <code>version</code></p></div></div></details>
+<details class="details_lb9f alert alert--info details_b_Ee" data-collapsed="true"><summary>What about EOL data for software that is not listed above?</summary><div><div class="collapsibleContent_i85q"><p>We are always expanding the coverage for our EOL database. Message us at
+<code>founders@xeol.io</code> and we will add the software you want within a week.</p></div></div></details>
+<details class="details_lb9f alert alert--info details_b_Ee" data-collapsed="true"><summary>How often is the EOL data refreshed?</summary><div><div class="collapsibleContent_i85q"><p>Weekly</p></div></div></details>
+<details class="details_lb9f alert alert--info details_b_Ee" data-collapsed="true"><summary><p>Do I have to parse the different EOL, deprecated, or archived dates myself?</p></summary><div><div class="collapsibleContent_i85q"><p>No, our API will return a boolean eol field and a datetime eol_date field for
+each product. We broke it down into different categories (EOL/EOS vs extended
+support vs deprecated vs archived) to highlight the differences in how
+commercial software and open source packages treat or signal end-of-life.</p></div></div></details></div></div></div><div class="row"><div class="col col--12"></div></div></article><div class="row"><div class="col col--12"><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/eol-scanner"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">EOL Scanner</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/api/check-eol"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Check EOL</div></a></nav></div></div></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"></div></div></div></div></main></div></div></div></div>
+</body>
+</html>
