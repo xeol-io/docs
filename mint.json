@@ -83,10 +83,7 @@
     }
   ],
   "api": {
-    "baseUrl": "https://edb-prod.xeol.io/",
-    "auth": {
-      "method": "bearer"
-    }
+    "baseUrl": "https://edb-prod.xeol.io/"
   },
   "footerSocials": {
     "github": "https://github.com/xeol-io",
